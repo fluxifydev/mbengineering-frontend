@@ -49,7 +49,7 @@ export default function Services() {
           <h2 className="font-display text-2xl sm:text-3xl md:text-5xl font-bold text-primary tracking-tight">
             End-to-End Technical Services
           </h2>
-          <p className="text-on-surface-variant max-w-xl mx-auto mt-4 text-sm sm:text-base">
+          <p className="text-on-surface-variant max-w-[640px] mx-auto mt-4 text-sm sm:text-base">
             We provide end-to-end engineering support—from initial CAD modeling and stress testing to site calibration and life-long maintenance.
           </p>
         </div>

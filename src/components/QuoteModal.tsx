@@ -107,7 +107,7 @@ export default function QuoteModal({ isOpen, onClose, initialMachine = '' }: Quo
               <span className="material-symbols-outlined text-4xl sm:text-5xl">verified</span>
             </div>
             <h3 className="font-display text-2xl sm:text-3xl font-bold text-primary">Inquiry Submitted</h3>
-            <p className="text-xs sm:text-sm text-on-surface-variant max-w-md mx-auto leading-relaxed">
+            <p className="text-xs sm:text-sm text-on-surface-variant max-w-[480px] mx-auto leading-relaxed">
               Thank you for your interest in MB Engineering Works. A senior technical sales specialist will review your specifications and reach out to you within 24 hours.
             </p>
             <div className="pt-2">

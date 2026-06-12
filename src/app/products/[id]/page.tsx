@@ -105,7 +105,7 @@ export default function ProductDetailPage() {
         <main className="pt-28 pb-16 md:pt-32 md:pb-24 max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop min-h-[50vh] flex flex-col items-center justify-center text-center space-y-6">
           <span className="material-symbols-outlined text-6xl text-primary animate-bounce">precision_manufacturing</span>
           <h2 className="font-display text-3xl font-bold text-primary">Machinery Model Not Found</h2>
-          <p className="text-on-surface-variant max-w-md">
+          <p className="text-on-surface-variant max-w-[480px]">
             The requested industrial machine model does not exist in our catalog database or may have been updated.
           </p>
           <button 

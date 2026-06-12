@@ -33,7 +33,7 @@ export default function Footer() {
             />
             <span className="font-display text-xl text-white font-bold tracking-tight">MB Engineering Works</span>
           </div>
-          <p className="text-white/60 text-sm leading-relaxed max-w-sm font-medium">
+          <p className="text-white/60 text-sm leading-relaxed max-w-[360px] font-medium">
             Precision Engineered for Industry. Since 2008, MB Engineering Works has been setting the industry standard for high-performance slitting, converting, and printing systems globally.
           </p>
           <div className="flex gap-4">

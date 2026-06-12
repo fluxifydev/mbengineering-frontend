@@ -53,7 +53,7 @@ export default function WhyTrustUs() {
         {/* Title Header */}
         <div className="text-center mb-12 md:mb-16">
           <h2 className="font-display text-2xl sm:text-3xl md:text-5xl font-bold text-primary tracking-tight">Why Industry Leaders Trust Us</h2>
-          <p className="text-on-surface-variant max-w-xl mx-auto mt-4 text-sm sm:text-base">
+          <p className="text-on-surface-variant max-w-[640px] mx-auto mt-4 text-sm sm:text-base">
             Merging nearly two decades of engineering heritage with future-ready innovation.
           </p>
         </div>

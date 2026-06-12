@@ -148,7 +148,7 @@ export default function Contact() {
                   <span className="material-symbols-outlined text-4xl">check</span>
                 </div>
                 <h4 className="text-lg font-bold text-primary">Inquiry Received</h4>
-                <p className="text-xs sm:text-sm text-on-surface-variant max-w-sm leading-relaxed">
+                <p className="text-xs sm:text-sm text-on-surface-variant max-w-[360px] leading-relaxed">
                   Thank you for contacting MB Engineering. We have received your project details and will send a follow-up email shortly.
                 </p>
                 <button 

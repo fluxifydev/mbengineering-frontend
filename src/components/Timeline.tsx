@@ -57,7 +57,7 @@ export default function Timeline() {
                     <h4 className="text-base md:text-lg font-bold mt-1 text-white leading-snug">
                       {item.title}
                     </h4>
-                    <p className="text-white/60 mt-1.5 text-xs md:text-sm leading-relaxed max-w-md">
+                    <p className="text-white/60 mt-1.5 text-xs md:text-sm leading-relaxed max-w-[480px]">
                       {item.description}
                     </p>
                   </div>
@@ -80,7 +80,7 @@ export default function Timeline() {
             />
             
             {/* Map Labels Floating Panel */}
-            <div className="absolute bottom-4 left-4 right-4 md:bottom-6 md:left-6 md:right-auto z-20 bg-slate-950/90 backdrop-blur-md p-5 md:p-6 border border-white/10 rounded-xl max-w-sm">
+            <div className="absolute bottom-4 left-4 right-4 md:bottom-6 md:left-6 md:right-auto z-20 bg-slate-950/90 backdrop-blur-md p-5 md:p-6 border border-white/10 rounded-xl max-w-[360px]">
               <h5 className="text-[10px] md:text-xs font-bold mb-3 uppercase tracking-wider font-label text-primary-fixed-dim">
                 Active Export Markets
               </h5>
