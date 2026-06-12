@@ -1,0 +1,284 @@
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import { useParams, useRouter } from 'next/navigation';
+import Image from 'next/image';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import QuoteModal from '@/components/QuoteModal';
+import { db } from '@/lib/firebase';
+import { doc, getDoc } from 'firebase/firestore';
+
+interface RenderProduct {
+  id: string;
+  name: string;
+  description: string;
+  imageUrl?: string;
+  images?: string[];
+  specifications: { key: string; value: string }[];
+  brochureUrl?: string;
+}
+
+export default function ProductDetailPage() {
+  const params = useParams();
+  const router = useRouter();
+  const id = params?.id as string;
+
+  const [product, setProduct] = useState<RenderProduct | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [activeImageIdx, setActiveImageIdx] = useState(0);
+  const [isQuoteOpen, setIsQuoteOpen] = useState(false);
+
+  useEffect(() => {
+    if (!id) return;
+
+    const fetchProductDetails = async () => {
+      try {
+        setLoading(true);
+        const docRef = doc(db, 'products', id);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          setProduct({
+            id: docSnap.id,
+            name: data.name || '',
+            description: data.description || '',
+            imageUrl: data.imageUrl || '',
+            specifications: data.specifications || [],
+            brochureUrl: data.brochureUrl || '',
+          });
+          setActiveImageIdx(0);
+        } else {
+          setProduct(null);
+        }
+      } catch (error) {
+        console.error('Error fetching product details from Firestore:', error);
+        setProduct(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProductDetails();
+  }, [id]);
+
+  if (loading) {
+    return (
+      <>
+        <Header onRequestQuote={() => setIsQuoteOpen(true)} />
+        <main className="pt-28 pb-16 md:pt-32 md:pb-24 max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop space-y-12">
+          <div className="h-6 bg-slate-100 animate-pulse rounded w-32" />
+          <div className="grid grid-cols-12 gap-y-10 lg:gap-x-gutter items-start">
+            <div className="col-span-12 lg:col-span-6 space-y-4">
+              <div className="w-full aspect-video sm:aspect-square md:aspect-video rounded-2xl bg-slate-100 animate-pulse" />
+            </div>
+            <div className="col-span-12 lg:col-span-6 space-y-8">
+              <div className="space-y-3">
+                <div className="h-10 bg-slate-100 animate-pulse rounded w-3/4" />
+                <div className="h-4 bg-slate-100 animate-pulse rounded w-1/4" />
+              </div>
+              <div className="space-y-4">
+                <div className="h-4 bg-slate-100 animate-pulse rounded w-full" />
+                <div className="h-4 bg-slate-100 animate-pulse rounded w-5/6" />
+              </div>
+              <div className="space-y-4">
+                <div className="h-6 bg-slate-100 animate-pulse rounded w-1/3" />
+                <div className="border border-outline-variant/60 rounded-xl overflow-hidden bg-slate-50 p-4 space-y-3">
+                  <div className="h-4 bg-slate-100 animate-pulse rounded w-full" />
+                  <div className="h-4 bg-slate-100 animate-pulse rounded w-full" />
+                  <div className="h-4 bg-slate-100 animate-pulse rounded w-full" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+        <Footer />
+      </>
+    );
+  }
+
+  if (!product) {
+    return (
+      <>
+        <Header onRequestQuote={() => setIsQuoteOpen(true)} />
+        <main className="pt-28 pb-16 md:pt-32 md:pb-24 max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop min-h-[50vh] flex flex-col items-center justify-center text-center space-y-6">
+          <span className="material-symbols-outlined text-6xl text-primary animate-bounce">precision_manufacturing</span>
+          <h2 className="font-display text-3xl font-bold text-primary">Machinery Model Not Found</h2>
+          <p className="text-on-surface-variant max-w-md">
+            The requested industrial machine model does not exist in our catalog database or may have been updated.
+          </p>
+          <button 
+            onClick={() => router.push('/')}
+            className="bg-primary text-white px-8 py-3 rounded-lg font-button font-bold text-sm hover:bg-primary-container active:scale-[0.98] transition-all cursor-pointer shadow-md shadow-primary/10"
+          >
+            Return to Homepage
+          </button>
+        </main>
+        <Footer />
+      </>
+    );
+  }
+
+  // Build the list of images to render (prefers multiple images from fallback, otherwise single imageUrl)
+  const images = product.images && product.images.length > 0
+    ? product.images
+    : (product.imageUrl ? [product.imageUrl] : []);
+
+  const handleWhatsAppChat = () => {
+    const msg = encodeURIComponent(`Hello, I would like to inquire about the ${product.name} specifications and delivery timelines.`);
+    window.open(`https://wa.me/919876543210?text=${msg}`, '_blank');
+  };
+
+  const handleBrochureDownload = () => {
+    if (product.brochureUrl) {
+      window.open(product.brochureUrl, '_blank');
+    } else {
+      alert(`Engineering brochure is not currently uploaded for ${product.name}. Please request a quote for detailed catalog parameters.`);
+    }
+  };
+
+  return (
+    <>
+      <Header onRequestQuote={() => setIsQuoteOpen(true)} />
+      
+      <main className="pt-28 pb-16 md:pt-32 md:pb-24 max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop space-y-12">
+        {/* Back navigation */}
+        <button 
+          onClick={() => router.push('/')}
+          className="inline-flex items-center gap-2 text-primary font-bold text-xs sm:text-sm hover:underline cursor-pointer group shrink-0"
+        >
+          <span className="material-symbols-outlined text-base transition-transform group-hover:-translate-x-1">arrow_back</span>
+          Back to Machinery Catalog
+        </button>
+
+        {/* Product Details Split Grid */}
+        <div className="grid grid-cols-12 gap-y-10 lg:gap-x-gutter items-start">
+          
+          {/* Left Column: Image Viewer Gallery */}
+          <div className="col-span-12 lg:col-span-6 space-y-4">
+            {/* Active Image frame */}
+            <div className="relative w-full aspect-video sm:aspect-square md:aspect-video rounded-2xl overflow-hidden border border-outline-variant/60 bg-slate-100 shadow-md">
+              {images.length > 0 ? (
+                <Image 
+                  alt={`${product.name} active display`}
+                  className="object-cover" 
+                  src={images[activeImageIdx]}
+                  fill
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                />
+              ) : (
+                <div className="w-full h-full flex flex-col items-center justify-center text-slate-400 bg-slate-50 gap-2">
+                  <span className="material-symbols-outlined text-5xl">precision_manufacturing</span>
+                  <span className="text-xs font-bold font-label uppercase tracking-wider">No Image Available</span>
+                </div>
+              )}
+            </div>
+
+            {/* Thumbnail selector row (rendered if multiple images exist) */}
+            {images.length > 1 && (
+              <div className="flex gap-3 overflow-x-auto no-scrollbar py-2">
+                {images.map((img, idx) => {
+                  const isActive = activeImageIdx === idx;
+                  return (
+                    <button 
+                      key={idx}
+                      onClick={() => setActiveImageIdx(idx)}
+                      className={`relative w-20 sm:w-24 aspect-video rounded-lg overflow-hidden border-2 shrink-0 transition-all cursor-pointer ${isActive ? 'border-primary shadow-md scale-102' : 'border-outline-variant/60 opacity-70 hover:opacity-100'}`}
+                      aria-label={`Select product detail view ${idx + 1}`}
+                    >
+                      <Image 
+                        alt={`${product.name} detail view ${idx + 1}`}
+                        className="object-cover" 
+                        src={img}
+                        fill
+                        sizes="96px"
+                      />
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+
+          {/* Right Column: Descriptions, Specs, and Actions */}
+          <div className="col-span-12 lg:col-span-6 space-y-8">
+            {/* Titles */}
+            <div className="space-y-3">
+              <h1 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-primary tracking-tight leading-tight">
+                {product.name}
+              </h1>
+              <p className="text-xs font-label uppercase tracking-widest text-secondary font-bold flex items-center gap-1.5">
+                <span className="material-symbols-outlined text-sm">precision_manufacturing</span>
+                Industrial Machinery Class-A
+              </p>
+            </div>
+
+            {/* Description Copy */}
+            <div className="space-y-4">
+              <h3 className="font-display text-lg font-bold text-primary">Overview & Capability</h3>
+              <p className="text-xs sm:text-sm md:text-base text-on-surface-variant leading-relaxed font-medium">
+                {product.description}
+              </p>
+            </div>
+
+            {/* B2B Technical Specifications Grid */}
+            <div className="space-y-4">
+              <h3 className="font-display text-lg font-bold text-primary">Technical Parameters</h3>
+              {product.specifications && product.specifications.length > 0 ? (
+                <div className="border border-outline-variant/60 rounded-xl overflow-hidden bg-white shadow-sm">
+                  {product.specifications.map((spec, idx) => (
+                    <div 
+                      key={idx} 
+                      className={`grid grid-cols-2 p-3.5 sm:p-4 text-xs sm:text-sm ${idx !== 0 ? 'border-t border-outline-variant/30' : ''} ${idx % 2 === 0 ? 'bg-surface-container-low/50' : 'bg-white'}`}
+                    >
+                      <span className="font-bold text-primary">{spec.key}</span>
+                      <span className="text-on-surface-variant font-semibold text-right sm:text-left">{spec.value}</span>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-xs sm:text-sm text-on-surface-variant italic font-medium">
+                  Technical specifications are currently being updated by the engineering team.
+                </p>
+              )}
+            </div>
+
+            {/* B2B Call-To-Action buttons */}
+            <div className="pt-4 border-t border-outline-variant/50 flex flex-col sm:flex-row gap-3">
+              <button 
+                onClick={() => setIsQuoteOpen(true)}
+                className="flex-1 bg-accent text-white py-3.5 rounded-lg font-button font-bold text-xs sm:text-sm hover:brightness-110 active:scale-[0.98] transition-all cursor-pointer shadow-lg shadow-accent/25 text-center"
+              >
+                Inquiry Now
+              </button>
+              <button 
+                onClick={handleBrochureDownload}
+                className="flex-1 border border-outline-variant py-3.5 rounded-lg font-button font-bold text-xs sm:text-sm hover:bg-surface-container transition-all cursor-pointer text-on-surface-variant text-center"
+              >
+                Download Brochure
+              </button>
+              <button 
+                onClick={handleWhatsAppChat}
+                className="bg-[#25D366] text-white px-6 py-3.5 rounded-lg font-button font-bold text-xs sm:text-sm hover:bg-[#20ba56] active:scale-[0.98] transition-all cursor-pointer shadow-md text-center flex items-center justify-center gap-1.5"
+              >
+                WhatsApp Inquiry
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </main>
+
+      <Footer />
+
+      {/* Inquiry Quote Modal Popup */}
+      <QuoteModal 
+        isOpen={isQuoteOpen}
+        onClose={() => setIsQuoteOpen(false)}
+        initialMachine={product.name}
+      />
+    </>
+  );
+}

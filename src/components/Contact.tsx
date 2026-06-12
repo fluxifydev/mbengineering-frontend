@@ -1,0 +1,294 @@
+'use client';
+
+import React, { useState } from 'react';
+import { db } from '@/lib/firebase';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+
+export default function Contact() {
+  const [formData, setFormData] = useState({
+    fullName: '',
+    companyName: '',
+    email: '',
+    country: '',
+    requirement: '',
+  });
+
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const contactDetails = [
+    { icon: 'call', title: 'Call Us Directly', value: '+91 987 654 3210', href: 'tel:+919876543210' },
+    { icon: 'mail', title: 'Email Inquiries', value: 'exports@mbengineering.com', href: 'mailto:exports@mbengineering.com' },
+    { icon: 'location_on', title: 'Factory HQ', value: 'Plot 42, Engineering Cluster, Phase II, Industrial Area, India', href: '#' },
+  ];
+
+  const validate = () => {
+    const newErrors: Record<string, string> = {};
+    if (!formData.fullName.trim()) newErrors.fullName = 'Full name is required';
+    if (!formData.companyName.trim()) newErrors.companyName = 'Company name is required';
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email address is required';
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = 'Invalid email address';
+    }
+    if (!formData.country.trim()) newErrors.country = 'Country is required';
+    if (!formData.requirement.trim()) newErrors.requirement = 'Please let us know your requirement';
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!validate()) return;
+
+    setIsSubmitting(true);
+    setSubmitError(null);
+
+    try {
+      await addDoc(collection(db, 'inquiries'), {
+        fullName: formData.fullName,
+        companyName: formData.companyName,
+        email: formData.email,
+        country: formData.country,
+        requirement: formData.requirement,
+        createdAt: serverTimestamp(),
+      });
+
+      setIsSubmitted(true);
+      setFormData({
+        fullName: '',
+        companyName: '',
+        email: '',
+        country: '',
+        requirement: '',
+      });
+    } catch (err: any) {
+      console.error('Error saving contact inquiry:', err);
+      setSubmitError('Failed to send inquiry. Please try again or connect via WhatsApp.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleWhatsAppChat = () => {
+    window.open('https://wa.me/919876543210?text=Hello%20MB%20Engineering%20Works%20sales%20team!', '_blank');
+  };
+
+  return (
+    <section className="py-16 md:py-24 lg:py-xl animate-fade-in scroll-mt-20" id="contact">
+      <div className="max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop space-y-16">
+        
+        {/* Contact Split Grid */}
+        <div className="grid grid-cols-12 gap-y-12 lg:gap-x-gutter items-start">
+          
+          {/* Info Details Column */}
+          <div className="col-span-12 lg:col-span-5 space-y-6 md:space-y-8">
+            <h2 className="font-display text-2xl sm:text-3xl md:text-5xl font-bold text-primary tracking-tight leading-tight">
+              Let's Discuss Your Project
+            </h2>
+            <p className="text-sm sm:text-base md:text-lg text-on-surface-variant leading-relaxed">
+              Our engineering experts are ready to assist with technical specifications and custom quotations.
+            </p>
+            
+            <div className="space-y-6">
+              {contactDetails.map((detail, idx) => (
+                <div key={idx} className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center text-primary shrink-0">
+                    <span className="material-symbols-outlined text-xl">{detail.icon}</span>
+                  </div>
+                  <div>
+                    <h5 className="font-bold text-sm md:text-base text-primary leading-tight">{detail.title}</h5>
+                    {detail.href !== '#' ? (
+                      <a href={detail.href} className="text-on-surface-variant hover:text-primary transition-colors text-xs sm:text-sm md:text-base font-semibold mt-1 inline-block">
+                        {detail.value}
+                      </a>
+                    ) : (
+                      <p className="text-on-surface-variant text-xs sm:text-sm md:text-base font-semibold mt-1">
+                        {detail.value}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Quick Actions Panel */}
+            <div className="pt-6 border-t border-outline-variant/60">
+              <h5 className="font-label text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-4">
+                Quick Connect
+              </h5>
+              <div className="flex flex-wrap gap-3">
+                <button 
+                  onClick={handleWhatsAppChat}
+                  className="bg-[#25D366] text-white px-5 py-3 rounded-lg font-button font-bold text-xs sm:text-sm flex items-center gap-1.5 hover:bg-[#20ba56] transition-all cursor-pointer shadow-sm"
+                >
+                  WhatsApp Inquiry
+                </button>
+                <button 
+                  onClick={() => {
+                    const el = document.getElementById('name-input');
+                    if (el) el.focus();
+                  }}
+                  className="bg-primary text-white px-5 py-3 rounded-lg font-button font-bold text-xs sm:text-sm flex items-center gap-1.5 hover:bg-primary-container transition-all cursor-pointer shadow-md shadow-primary/10"
+                >
+                  Schedule Call
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Form Card Column */}
+          <div className="col-span-12 lg:col-span-7 bg-white p-6 sm:p-8 md:p-10 rounded-2xl shadow-xl border border-outline-variant relative">
+            {isSubmitted && (
+              <div className="absolute inset-0 bg-white/95 backdrop-blur-sm rounded-2xl flex flex-col items-center justify-center p-6 sm:p-8 text-center space-y-4 z-10 animate-fade-in">
+                <div className="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center text-green-600">
+                  <span className="material-symbols-outlined text-4xl">check</span>
+                </div>
+                <h4 className="text-lg font-bold text-primary">Inquiry Received</h4>
+                <p className="text-xs sm:text-sm text-on-surface-variant max-w-sm leading-relaxed">
+                  Thank you for contacting MB Engineering. We have received your project details and will send a follow-up email shortly.
+                </p>
+                <button 
+                  onClick={() => setIsSubmitted(false)}
+                  className="text-xs text-primary font-bold hover:underline cursor-pointer pt-2"
+                >
+                  Send another message
+                </button>
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div className="space-y-1">
+                  <label className="text-label text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">Full Name</label>
+                  <input 
+                    id="name-input"
+                    type="text"
+                    value={formData.fullName}
+                    onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                    className="w-full border border-outline-variant rounded-lg p-3 text-xs sm:text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none"
+                    placeholder="Enter your name"
+                  />
+                  {errors.fullName && <p className="text-xs text-error font-medium">{errors.fullName}</p>}
+                </div>
+                <div className="space-y-1">
+                  <label className="text-label text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">Company Name</label>
+                  <input 
+                    type="text"
+                    value={formData.companyName}
+                    onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
+                    className="w-full border border-outline-variant rounded-lg p-3 text-xs sm:text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none"
+                    placeholder="Enter company name"
+                  />
+                  {errors.companyName && <p className="text-xs text-error font-medium">{errors.companyName}</p>}
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div className="space-y-1">
+                  <label className="text-label text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">Email Address</label>
+                  <input 
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    className="w-full border border-outline-variant rounded-lg p-3 text-xs sm:text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none"
+                    placeholder="name@company.com"
+                  />
+                  {errors.email && <p className="text-xs text-error font-medium">{errors.email}</p>}
+                </div>
+                <div className="space-y-1">
+                  <label className="text-label text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">Country</label>
+                  <input 
+                    type="text"
+                    value={formData.country}
+                    onChange={(e) => setFormData({ ...formData, country: e.target.value })}
+                    className="w-full border border-outline-variant rounded-lg p-3 text-xs sm:text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none"
+                    placeholder="Enter country"
+                  />
+                  {errors.country && <p className="text-xs text-error font-medium">{errors.country}</p>}
+                </div>
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-label text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">Machine Requirement</label>
+                <textarea 
+                  value={formData.requirement}
+                  onChange={(e) => setFormData({ ...formData, requirement: e.target.value })}
+                  rows={4}
+                  className="w-full border border-outline-variant rounded-lg p-3 text-xs sm:text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none resize-none"
+                  placeholder="Tell us about your production needs..."
+                />
+                {errors.requirement && <p className="text-xs text-error font-medium">{errors.requirement}</p>}
+              </div>
+
+              {submitError && (
+                <div className="bg-red-50/80 border border-red-200 text-red-600 p-3 rounded-lg text-xs font-semibold flex items-center gap-2">
+                  <span className="material-symbols-outlined text-sm">error</span>
+                  <span>{submitError}</span>
+                </div>
+              )}
+
+              <button 
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full bg-accent text-white py-3.5 sm:py-4 rounded-lg font-bold text-sm sm:text-base md:text-lg hover:brightness-110 hover:shadow-lg hover:shadow-accent/20 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+              >
+                {isSubmitting ? 'Sending inquiry...' : 'Submit Technical Inquiry'}
+              </button>
+            </form>
+          </div>
+        </div>
+
+        {/* Location Map Section Banner */}
+        <div className="border border-outline-variant rounded-2xl overflow-hidden bg-white shadow-lg flex flex-col md:flex-row items-stretch">
+          {/* Map Visual Decoration */}
+          <div className="w-full md:w-1/2 min-h-[200px] md:min-h-[250px] relative bg-surface-container-highest flex items-center justify-center overflow-hidden shrink-0">
+            <div className="absolute inset-0 opacity-40 blueprint-grid" />
+            <div className="absolute inset-0 flex items-center justify-center opacity-10">
+              <span className="material-symbols-outlined text-[150px] md:text-[180px] text-primary">map</span>
+            </div>
+            
+            <div className="absolute w-40 h-40 md:w-48 md:h-48 bg-primary/5 rounded-full animate-pulse flex items-center justify-center">
+              <div className="w-20 h-20 md:w-24 md:w-24 bg-primary/10 rounded-full" />
+            </div>
+            
+            <div className="relative z-10 text-center p-6 space-y-2">
+              <span className="material-symbols-outlined text-3xl md:text-4xl text-primary animate-bounce">location_on</span>
+              <h4 className="font-display font-bold text-base md:text-lg text-primary">Factory Visit Portal</h4>
+              <p className="text-[10px] md:text-xs text-on-surface-variant font-medium">Book a facility walkthrough during production hours.</p>
+            </div>
+          </div>
+          
+          {/* Location Text & Directions Action */}
+          <div className="w-full md:w-1/2 p-6 sm:p-8 flex flex-col justify-between items-start space-y-6">
+            <div className="space-y-4">
+              <h4 className="font-display text-lg sm:text-xl md:text-2xl font-bold text-primary flex items-center gap-2">
+                <span className="material-symbols-outlined text-primary text-xl md:text-2xl">apartment</span>
+                Visit Our Facility
+              </h4>
+              <p className="text-xs sm:text-sm md:text-base text-on-surface-variant font-semibold leading-relaxed">
+                Lakshmi nagar, 48, 3rd St, Laxmi Nagar, Sanganoor, Coimbatore, Tamil Nadu 641027
+              </p>
+              <p className="text-[10px] sm:text-xs text-on-surface-variant/75 font-medium">
+                Open for technical walkthroughs Mon-Sat, 9:00 AM - 6:00 PM
+              </p>
+            </div>
+            
+            <a 
+              href="https://www.google.com/maps/search/?api=1&query=Lakshmi+nagar,+48,+3rd+St,+Laxmi+Nagar,+Sanganoor,+Coimbatore,+Tamil+Nadu+641027" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="bg-primary text-white px-6 py-3 rounded-lg font-button font-bold text-xs sm:text-sm hover:bg-primary-container active:scale-[0.98] transition-all cursor-pointer block"
+            >
+              Get Directions
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  );
+}
