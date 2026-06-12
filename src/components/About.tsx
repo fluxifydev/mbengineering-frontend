@@ -14,20 +14,20 @@ export default function About() {
             Crafting Excellence in Every Component.
           </h2>
           <p className="text-sm sm:text-base md:text-lg text-on-surface-variant leading-relaxed">
-            MB Engineering Works was founded with a singular vision: to redefine industrial standards through precision engineering. Since 2008, we have evolved from a specialized workshop into a global machinery powerhouse.
+            MB Engineering Works was established with a singular, resolute mission: to redefine industrial productivity through world-class precision engineering. Since 2008, we have transitioned from a specialized tooling workshop into a global powerhouse in high-precision converting and slitting machinery, serving enterprise manufacturers worldwide.
           </p>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
             <div className="p-6 bg-white border-l-4 border-primary shadow-sm rounded-r-lg">
               <h5 className="font-bold text-primary mb-2 uppercase text-[11px] font-label tracking-wider">Mission</h5>
               <p className="text-xs md:text-sm text-on-surface-variant leading-relaxed">
-                To empower manufacturers with high-efficiency machinery that minimizes downtime and maximizes output through relentless innovation.
+                To empower global manufacturers with custom, high-efficiency machinery that minimizes operational downtime, maximizes production throughput, and drives industrial growth through relentless technical innovation.
               </p>
             </div>
             <div className="p-6 bg-white border-l-4 border-secondary shadow-sm rounded-r-lg">
               <h5 className="font-bold text-secondary mb-2 uppercase text-[11px] font-label tracking-wider">Vision</h5>
               <p className="text-xs md:text-sm text-on-surface-variant leading-relaxed">
-                To be the global benchmark for converting and printing solutions, recognized for technical superiority and unwavering integrity.
+                To establish the global benchmark for converting and slitting systems, becoming the most trusted partner for manufacturers who demand uncompromising technical superiority, exceptional service, and engineering integrity.
               </p>
             </div>
           </div>

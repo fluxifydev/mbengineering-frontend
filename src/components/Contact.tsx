@@ -90,7 +90,7 @@ export default function Contact() {
               Let's Discuss Your Project
             </h2>
             <p className="text-sm sm:text-base md:text-lg text-on-surface-variant leading-relaxed">
-              Our engineering experts are ready to assist with technical specifications and custom quotations.
+              Get in touch with our engineering office today. We are available to review technical parameters, provide custom layout drawings, and issue comprehensive B2B quotations.
             </p>
             
             <div className="space-y-6">

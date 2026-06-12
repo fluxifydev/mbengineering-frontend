@@ -7,42 +7,42 @@ export default function WhyTrustUs() {
     {
       icon: 'military_tech',
       title: '18+ Years Experience',
-      description: 'Unrivaled domain expertise since 2008 in designing complex industrial systems.',
+      description: 'Nearly two decades of design and engineering expertise building complex, high-reliability industrial machinery.',
     },
     {
       icon: 'target',
       title: 'Technical Precision',
-      description: 'Micron-level accuracy ensuring seamless production for high-volume operations.',
+      description: 'Micron-level manufacturing tolerance ensuring flawless, vibration-free operation under high-volume production cycles.',
     },
     {
       icon: 'architecture',
       title: 'Customization',
-      description: 'Bespoke engineering tailored to your unique material and workflow requirements.',
+      description: 'Bespoke, client-first design tailored to your specific material thickness, web width, and workflow dynamics.',
     },
     {
       icon: 'public',
       title: 'Global Exports',
-      description: 'Proven track record with successful installations in Europe and the Middle East.',
+      description: 'A certified export footprint with successful, heavy-duty machinery installations operating in Europe and the Middle East.',
     },
     {
       icon: 'verified',
       title: 'Quality Standards',
-      description: 'Rigorous multi-stage testing protocols before any machine leaves our floor.',
+      description: 'Strict multi-stage verification and load testing protocols conducted before any equipment is cleared for dispatch.',
     },
     {
       icon: 'headset_mic',
       title: 'Lifetime Support',
-      description: 'Responsive technical assistance and genuine spare parts availability.',
+      description: 'Prompt, engineer-led technical assistance coupled with long-term guaranteed availability of authentic replacement parts.',
     },
     {
       icon: 'lightbulb',
       title: 'Continuous Innovation',
-      description: 'Investing in R&D to integrate the latest automation and IoT technologies.',
+      description: 'Continuous R&D investments dedicated to integrating smart automation, PLC systems, and remote IoT diagnostics.',
     },
     {
       icon: 'sentiment_satisfied',
       title: 'Customer First',
-      description: 'A 98% client retention rate built on transparency and value delivery.',
+      description: 'An exceptional 98% client retention rate built upon transparent commercial practices and long-term value delivery.',
     },
   ];
 

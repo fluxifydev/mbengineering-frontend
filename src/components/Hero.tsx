@@ -50,7 +50,7 @@ export default function Hero({ onRequestQuote }: HeroProps) {
           </h1>
           
           <p className="text-white/80 text-sm sm:text-base md:text-lg max-w-xl leading-relaxed">
-            Over 18 years of excellence in manufacturing high-performance converting and printing machinery. Custom B2B solutions engineered for global industrial leadership.
+            Leveraging over 18 years of specialized engineering excellence, we design and manufacture high-performance converting, slitting, and printing machinery. Our bespoke B2B solutions are engineered for maximum efficiency, absolute precision, and global industrial leadership.
           </p>
 
           {/* CTA Buttons */}

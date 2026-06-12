@@ -8,19 +8,19 @@ export default function Timeline() {
     {
       year: '2008',
       title: 'The Inception',
-      description: 'Founded MB Engineering Works in India, specializing in basic converting tools.',
+      description: 'Founded MB Engineering Works in Coimbatore, India, establishing our baseline in custom manufacturing and basic converting tools.',
       isLast: false,
     },
     {
       year: '2015',
       title: 'First Export: Saudi Arabia',
-      description: 'Successfully delivered custom printing machines to Riyadh, marking our global debut.',
+      description: 'Successfully delivered custom-configured printing and slitting equipment to Riyadh, marking our official entry into Middle Eastern export markets.',
       isLast: false,
     },
     {
       year: 'Present',
       title: 'European & Asian Expansion',
-      description: 'Actively exporting to Poland, Thailand, and the UAE, expanding our high-tech footprint.',
+      description: 'Secured export projects across Poland, Thailand, Germany, and the UAE, expanding our international footprint with advanced high-speed slitter rewinders.',
       isLast: true,
     },
   ];

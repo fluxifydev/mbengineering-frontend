@@ -9,27 +9,27 @@ export default function Services() {
     {
       title: 'Consultation & Design',
       icon: 'engineering',
-      details: 'We begin by analyzing your material properties, width specifications, and volume requirements. Our engineering team designs custom configurations in CAD before manufacturing begins.',
+      details: 'We start by evaluating your material elasticity, web width limits, and production targets. Our engineers then develop custom 3D CAD blueprints tailored to your specific shopfloor requirements.',
     },
     {
       title: 'Precision Manufacturing',
       icon: 'build',
-      details: 'Utilizing state-of-the-art CNC machines, we fabricate components with micron-level tolerances. Assembly is conducted under strict cleanroom quality conditions.',
+      details: 'Leveraging advanced multi-axis CNC centers, we produce core mechanical components with sub-micron tolerances, assembled under strict internal quality controls.',
     },
     {
       title: 'Rigorous Testing',
       icon: 'fact_check',
-      details: 'Every machine undergoes a continuous 48-hour stress test at our factory. We calibrate tension control systems and blade alignments to ensure flawless operation.',
+      details: 'Every unit undergoes a comprehensive 48-hour dry-run and stress test. We meticulously calibrate active tension controls, pneumatic alignments, and cutting mechanisms.',
     },
     {
       title: 'Global Logistics',
       icon: 'local_shipping',
-      details: 'We package your machinery in customized, marine-grade protective crates and handle all export paperwork, customs clearance, and secure ocean/air transit.',
+      details: 'We secure your machinery in vacuum-sealed, marine-grade wooden crates, managing all export documentation, customs clearances, and door-to-door sea/air logistics.',
     },
     {
-      title: 'On-site Installation',
+      title: 'On-site Commissioning',
       icon: 'settings',
-      details: 'Our senior engineers fly directly to your site to handle setup, calibrate systems on your manufacturing floor, and run comprehensive training sessions for your operators.',
+      details: 'Our commissioning team deploys directly to your facility to supervise assembly, integrate power systems, and conduct hands-on training for your operating crew.',
     },
   ];
 
@@ -50,7 +50,7 @@ export default function Services() {
             End-to-End Technical Services
           </h2>
           <p className="text-on-surface-variant max-w-xl mx-auto mt-4 text-sm sm:text-base">
-            We don't just sell machines; we provide lifecycle engineering support.
+            We provide end-to-end engineering support—from initial CAD modeling and stress testing to site calibration and life-long maintenance.
           </p>
         </div>
 
@@ -122,7 +122,7 @@ export default function Services() {
             {/* Testimonial Panel */}
             <div className="p-5 md:p-6 bg-white rounded-xl border-l-4 border-accent shadow-sm">
               <p className="text-xs md:text-sm italic text-on-surface-variant leading-relaxed">
-                "The level of detail in the design phase saved us thousands in potential material waste. MB Engineering's process is flawlessly systematic."
+                "The engineering depth during the design phase saved us significant material waste during commissioning. MB Engineering's approach is systematic and incredibly professional."
               </p>
               <div className="mt-3.5 font-bold text-[10px] text-primary font-label uppercase tracking-wide">
                 — Technical Director, Warsaw Print Group

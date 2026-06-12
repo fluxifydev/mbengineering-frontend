@@ -8,19 +8,19 @@ export default function Testimonials() {
       initials: 'AJ',
       name: 'Ahmed J.',
       role: 'Production Manager, Riyadh',
-      text: '"Their billing roll printing machine has been running 24/7 for three years with zero major breakdowns. The precision is unmatched."',
+      text: '"Their billing roll slitter-printer has been operating 24/7 for three years with zero major downtime. The tension control and slit quality are outstanding."',
     },
     {
       initials: 'MS',
       name: 'Marek S.',
       role: 'COO, Poland Packaging',
-      text: '"Finding a partner for customized converting machines was hard until we met MB. They understood our technical specs perfectly."',
+      text: '"Finding a manufacturer for custom slitting machinery was challenging until we partnered with MB. Their team interpreted our high-tolerance engineering drawings flawlessly."',
     },
     {
       initials: 'KP',
       name: 'Krittin P.',
       role: 'Owner, Thai Industrial Solutions',
-      text: '"Excellent after-sales support. Their engineers were on a call with us until 2 AM to resolve a setup issue. Highly recommended."',
+      text: '"Outstanding after-sales technical support. Their senior engineers stayed on a call with us past midnight to troubleshoot a PLC integration issue during our line startup."',
     },
   ];
 
