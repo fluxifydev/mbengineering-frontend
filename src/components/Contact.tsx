@@ -19,9 +19,9 @@ export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const contactDetails = [
-    { icon: 'call', title: 'Call Us Directly', value: '+91 987 654 3210', href: 'tel:+919876543210' },
-    { icon: 'mail', title: 'Email Inquiries', value: 'exports@mbengineering.com', href: 'mailto:exports@mbengineering.com' },
-    { icon: 'location_on', title: 'Factory HQ', value: 'Plot 42, Engineering Cluster, Phase II, Industrial Area, India', href: '#' },
+    { icon: 'call', title: 'Call Us Directly', value: '+91 93453 23173', href: 'tel:+919345323173' },
+    { icon: 'mail', title: 'Email Inquiries', value: 'mbengineeringworks50@gmail.com', href: 'mailto:mbengineeringworks50@gmail.com' },
+    { icon: 'location_on', title: 'Factory HQ', value: '48, Lakshmi Nagar, 3rd St, Sanganoor, Coimbatore, Tamil Nadu 641027', href: 'https://maps.app.goo.gl/qR7GCzRoCARhMnLi9' },
   ];
 
   const validate = () => {
@@ -74,7 +74,7 @@ export default function Contact() {
   };
 
   const handleWhatsAppChat = () => {
-    window.open('https://wa.me/919876543210?text=Hello%20MB%20Engineering%20Works%20sales%20team!', '_blank');
+    window.open('https://wa.me/919345323173?text=Hello%20MB%20Engineering%20Works%20sales%20team!', '_blank');
   };
 
   return (
@@ -278,7 +278,7 @@ export default function Contact() {
             </div>
             
             <a 
-              href="https://www.google.com/maps/search/?api=1&query=Lakshmi+nagar,+48,+3rd+St,+Laxmi+Nagar,+Sanganoor,+Coimbatore,+Tamil+Nadu+641027" 
+              href="https://maps.app.goo.gl/qR7GCzRoCARhMnLi9" 
               target="_blank" 
               rel="noopener noreferrer"
               className="bg-primary text-white px-6 py-3 rounded-lg font-button font-bold text-xs sm:text-sm hover:bg-primary-container active:scale-[0.98] transition-all cursor-pointer block"

@@ -127,7 +127,7 @@ export default function ProductDetailPage() {
 
   const handleWhatsAppChat = () => {
     const msg = encodeURIComponent(`Hello, I would like to inquire about the ${product.name} specifications and delivery timelines.`);
-    window.open(`https://wa.me/919876543210?text=${msg}`, '_blank');
+    window.open(`https://wa.me/919345323173?text=${msg}`, '_blank');
   };
 
   const handleBrochureDownload = () => {

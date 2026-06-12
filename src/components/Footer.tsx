@@ -46,7 +46,7 @@ export default function Footer() {
             </a>
             <a 
               className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-primary hover:border-primary hover:text-white transition-colors text-white/80" 
-              href="mailto:exports@mbengineering.com"
+              href="mailto:mbengineeringworks50@gmail.com"
               aria-label="Email"
             >
               <span className="material-symbols-outlined text-sm">mail</span>
@@ -84,8 +84,15 @@ export default function Footer() {
             <h5 className="font-bold mb-6 text-primary-fixed-dim uppercase text-[10px] md:text-[11px] font-label tracking-widest">Global Support</h5>
             <p className="text-xs text-white/40 mb-4 font-medium leading-relaxed">Dedicated support lines for international partners.</p>
             <div className="bg-white/5 p-5 rounded-lg border border-white/10 transition-colors hover:border-white/20">
-              <div className="text-[9px] md:text-[10px] font-bold text-primary-fixed-dim font-label tracking-wider mb-1">TECHNICAL HOTLINE</div>
-              <div className="text-base md:text-lg font-mono font-bold text-white">+91 999 888 7777</div>
+              <div className="text-[9px] md:text-[10px] font-bold text-primary-fixed-dim font-label tracking-wider mb-1.5">SUPPORT HOTLINE</div>
+              <div className="text-sm font-mono font-bold text-white flex flex-col gap-1.5">
+                <a href="tel:+919345323173" className="hover:text-primary-fixed-dim transition-colors flex items-center gap-1">
+                  <span className="material-symbols-outlined text-xs">call</span> +91 93453 23173
+                </a>
+                <a href="tel:+919087771626" className="hover:text-primary-fixed-dim transition-colors flex items-center gap-1">
+                  <span className="material-symbols-outlined text-xs">call</span> +91 90877 71626
+                </a>
+              </div>
             </div>
           </div>
         </div>

@@ -38,7 +38,7 @@ export default function Home() {
   };
 
   const handleWhatsAppChat = () => {
-    window.open('https://wa.me/919876543210?text=Hello%20MB%20Engineering%20Works!', '_blank');
+    window.open('https://wa.me/919345323173?text=Hello%20MB%20Engineering%20Works!', '_blank');
   };
 
   return (

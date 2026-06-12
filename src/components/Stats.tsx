@@ -6,7 +6,7 @@ export default function Stats() {
   const stats = [
     { icon: 'history', value: '18+', label: 'YEARS EXPERIENCE' },
     { icon: 'precision_manufacturing', value: '500+', label: 'MACHINES DELIVERED' },
-    { icon: 'language', value: '3+', label: 'EXPORT COUNTRIES' },
+    { icon: 'language', value: '15+', label: 'GLOBAL MARKETS' },
     { icon: 'handshake', value: '100%', label: 'COMMITMENT' },
   ];
 
