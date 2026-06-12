@@ -94,7 +94,7 @@ export default function CategoryPage() {
       {/* Header */}
       <Header onRequestQuote={() => handleOpenQuote('General Category Inquiry')} />
 
-      <main className="pt-28 pb-16 md:pt-32 md:pb-24 max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop min-h-[70vh] flex flex-col space-y-10">
+      <main className="pt-28 pb-16 md:pt-32 md:pb-24 max-w-[1600px] mx-auto px-margin-mobile md:px-10 lg:px-16 min-h-[70vh] flex flex-col space-y-10">
         
         {/* Back and Page Header */}
         <div className="space-y-4">
