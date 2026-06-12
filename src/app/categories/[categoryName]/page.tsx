@@ -94,7 +94,7 @@ export default function CategoryPage() {
       {/* Header */}
       <Header onRequestQuote={() => handleOpenQuote('General Category Inquiry')} />
 
-      <main className="pt-28 pb-16 md:pt-32 md:pb-24 max-w-[1720px] mx-auto px-margin-mobile md:px-12 lg:px-20 min-h-[70vh] flex flex-col space-y-10">
+      <main className="pt-28 pb-16 md:pt-32 md:pb-24 w-full px-margin-mobile md:px-margin-desktop min-h-[70vh] flex flex-col space-y-10">
         
         {/* Back and Page Header */}
         <div className="space-y-4">
@@ -108,7 +108,7 @@ export default function CategoryPage() {
             Back to Machinery Catalog
           </button>
           
-          <div className="space-y-2 max-w-5xl">
+          <div className="space-y-2 w-full">
             <h1 className="font-display text-2xl sm:text-3xl md:text-5xl font-bold text-primary tracking-tight capitalize leading-tight">
               {categoryName}
             </h1>
