@@ -178,11 +178,8 @@ export default function CategoryPage() {
               return (
                 <div key={subcategoryName} className="border-b border-outline-variant/30 pb-10 last:border-b-0 last:pb-0">
                   {/* Subcategory Title */}
-                  <div className="flex items-center gap-2 mb-6 pl-1">
-                    <span className="material-symbols-outlined text-accent text-lg">
-                      subheader
-                    </span>
-                    <h3 className="font-display text-lg sm:text-xl font-bold text-primary tracking-tight capitalize">
+                  <div className="flex items-center gap-2 mb-6 pl-2.5 border-l-2 border-primary/70">
+                    <h3 className="font-display text-lg sm:text-xl font-bold text-primary tracking-tight capitalize leading-none">
                       {subcategoryName}
                     </h3>
                   </div>

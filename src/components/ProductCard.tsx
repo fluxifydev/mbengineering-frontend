@@ -42,7 +42,7 @@ export default function ProductCard({ product, onRequestQuote }: ProductCardProp
   return (
     <div 
       onClick={handleCardClick}
-      className="bg-white rounded-xl border border-outline-variant/60 overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 w-[80vw] sm:w-[48vw] lg:w-auto shrink-0 lg:shrink flex flex-col justify-between h-[410px] sm:h-[430px] lg:h-[450px] cursor-pointer group hover:border-primary/55 select-none"
+      className="bg-white rounded-xl border border-outline-variant/60 overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 w-[80vw] sm:w-[48vw] lg:w-full shrink-0 lg:shrink flex flex-col justify-between h-[410px] sm:h-[430px] lg:h-[450px] cursor-pointer group hover:border-primary/55 select-none"
     >
       {/* Media container */}
       <div className="h-44 sm:h-48 lg:h-52 overflow-hidden relative bg-slate-100/70 flex items-center justify-center text-slate-400 group-hover:bg-slate-100 transition-colors shrink-0">
