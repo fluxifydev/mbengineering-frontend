@@ -14,7 +14,7 @@ interface RenderProduct {
   name: string;
   description: string;
   imageUrl?: string;
-  images?: string[];
+  imageUrls?: string[];
   specifications: { key: string; value: string }[];
   brochureUrl?: string;
 }
@@ -28,6 +28,7 @@ export default function ProductDetailPage() {
   const [loading, setLoading] = useState(true);
   const [activeImageIdx, setActiveImageIdx] = useState(0);
   const [isQuoteOpen, setIsQuoteOpen] = useState(false);
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
 
   useEffect(() => {
     if (!id) return;
@@ -45,6 +46,7 @@ export default function ProductDetailPage() {
             name: data.name || '',
             description: data.description || '',
             imageUrl: data.imageUrl || '',
+            imageUrls: data.imageUrls || data.images || [],
             specifications: data.specifications || [],
             brochureUrl: data.brochureUrl || '',
           });
@@ -63,6 +65,22 @@ export default function ProductDetailPage() {
     fetchProductDetails();
   }, [id]);
 
+  // Handle escape key to close lightbox
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setIsLightboxOpen(false);
+      }
+    };
+
+    if (isLightboxOpen) {
+      window.addEventListener('keydown', handleKeyDown);
+    }
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isLightboxOpen]);
+
   if (loading) {
     return (
       <>
@@ -70,10 +88,10 @@ export default function ProductDetailPage() {
         <main className="pt-28 pb-16 md:pt-32 md:pb-24 max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop space-y-12">
           <div className="h-6 bg-slate-100 animate-pulse rounded w-32" />
           <div className="grid grid-cols-12 gap-y-10 lg:gap-x-gutter items-start">
-            <div className="col-span-12 lg:col-span-6 space-y-4">
-              <div className="w-full aspect-video sm:aspect-square md:aspect-video rounded-2xl bg-slate-100 animate-pulse" />
+            <div className="col-span-12 lg:col-span-7 space-y-4">
+              <div className="w-full aspect-[4/3] rounded-2xl bg-slate-100 animate-pulse" />
             </div>
-            <div className="col-span-12 lg:col-span-6 space-y-8">
+            <div className="col-span-12 lg:col-span-5 space-y-8">
               <div className="space-y-3">
                 <div className="h-10 bg-slate-100 animate-pulse rounded w-3/4" />
                 <div className="h-4 bg-slate-100 animate-pulse rounded w-1/4" />
@@ -120,13 +138,13 @@ export default function ProductDetailPage() {
     );
   }
 
-  // Build the list of images to render (prefers multiple images from fallback, otherwise single imageUrl)
-  const images = product.images && product.images.length > 0
-    ? product.images
+  // Build the list of images to render (prefers multiple images from backend, otherwise single imageUrl)
+  const images = product.imageUrls && product.imageUrls.length > 0
+    ? product.imageUrls
     : (product.imageUrl ? [product.imageUrl] : []);
 
   const handleWhatsAppChat = () => {
-    const msg = encodeURIComponent(`Hello, I would like to inquire about the ${product.name} specifications and delivery timelines.`);
+    const msg = encodeURIComponent(`Hello MB Engineering Works,\n\nI am interested in your *${product.name}* and would like to receive detailed specifications and delivery timelines.\n\nProduct Page: ${window.location.origin}/products/${product.id}`);
     window.open(`https://wa.me/919345323173?text=${msg}`, '_blank');
   };
 
@@ -156,18 +174,27 @@ export default function ProductDetailPage() {
         <div className="grid grid-cols-12 gap-y-10 lg:gap-x-gutter items-start">
           
           {/* Left Column: Image Viewer Gallery */}
-          <div className="col-span-12 lg:col-span-6 space-y-4">
+          <div className="col-span-12 lg:col-span-7 space-y-4">
             {/* Active Image frame */}
-            <div className="relative w-full aspect-video sm:aspect-square md:aspect-video rounded-2xl overflow-hidden border border-outline-variant/60 bg-slate-100 shadow-md">
+            <div 
+              onClick={() => images.length > 0 && setIsLightboxOpen(true)}
+              className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden border border-outline-variant/60 bg-slate-100 shadow-md cursor-zoom-in group/image"
+            >
               {images.length > 0 ? (
-                <Image 
-                  alt={`${product.name} active display`}
-                  className="object-cover" 
-                  src={images[activeImageIdx]}
-                  fill
-                  priority
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                />
+                <>
+                  <Image 
+                    alt={`${product.name} active display`}
+                    className="object-cover group-hover/image:scale-[1.02] transition-transform duration-500" 
+                    src={images[activeImageIdx]}
+                    fill
+                    priority
+                    sizes="(max-width: 1024px) 100vw, 55vw"
+                  />
+                  {/* Magnifying badge on hover */}
+                  <div className="absolute bottom-4 right-4 bg-slate-900/60 backdrop-blur-sm text-white p-2.5 rounded-full opacity-0 group-hover/image:opacity-100 transition-opacity duration-300 pointer-events-none flex items-center justify-center">
+                    <span className="material-symbols-outlined text-xl">zoom_in</span>
+                  </div>
+                </>
               ) : (
                 <div className="w-full h-full flex flex-col items-center justify-center text-slate-400 bg-slate-50 gap-2">
                   <span className="material-symbols-outlined text-5xl">precision_manufacturing</span>
@@ -203,7 +230,7 @@ export default function ProductDetailPage() {
           </div>
 
           {/* Right Column: Descriptions, Specs, and Actions */}
-          <div className="col-span-12 lg:col-span-6 space-y-8">
+          <div className="col-span-12 lg:col-span-5 space-y-8">
             {/* Titles */}
             <div className="space-y-3">
               <h1 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-primary tracking-tight leading-tight">
@@ -263,6 +290,7 @@ export default function ProductDetailPage() {
                 onClick={handleWhatsAppChat}
                 className="bg-[#25D366] text-white px-6 py-3.5 rounded-lg font-button font-bold text-xs sm:text-sm hover:bg-[#20ba56] active:scale-[0.98] transition-all cursor-pointer shadow-md text-center flex items-center justify-center gap-1.5"
               >
+                <span className="material-symbols-outlined text-sm font-bold">chat</span>
                 WhatsApp Inquiry
               </button>
             </div>
@@ -279,6 +307,69 @@ export default function ProductDetailPage() {
         onClose={() => setIsQuoteOpen(false)}
         initialMachine={product.name}
       />
+
+      {/* Lightbox Modal Popup */}
+      {isLightboxOpen && images.length > 0 && (
+        <div className="fixed inset-0 z-[200] flex items-center justify-center bg-slate-950/95 backdrop-blur-md animate-fade-in select-none">
+          {/* Backdrop Click */}
+          <div 
+            className="absolute inset-0 cursor-zoom-out" 
+            onClick={() => setIsLightboxOpen(false)}
+          />
+          
+          {/* Close Button */}
+          <button 
+            onClick={() => setIsLightboxOpen(false)}
+            className="absolute top-5 right-5 text-white/80 hover:text-white transition-colors cursor-pointer z-10 flex items-center justify-center p-2 rounded-full bg-slate-900/50 hover:bg-slate-900/80 backdrop-blur-sm border border-white/10"
+            aria-label="Close lightbox"
+          >
+            <span className="material-symbols-outlined text-2xl font-bold">close</span>
+          </button>
+          
+          {/* Main Image View */}
+          <div className="relative w-full max-w-5xl h-[80vh] flex flex-col items-center justify-center p-4">
+            <div className="relative w-full h-full">
+              <Image 
+                alt={`${product.name} large view`}
+                src={images[activeImageIdx]}
+                fill
+                className="object-contain"
+                sizes="100vw"
+                priority
+              />
+            </div>
+            
+            {/* Image Counter & Title Pill */}
+            <div className="mt-4 text-center z-10 bg-slate-900/60 backdrop-blur-sm border border-white/10 px-5 py-2 rounded-full">
+              <p className="text-white text-xs font-bold tracking-wider font-label uppercase">
+                {product.name} — {activeImageIdx + 1} of {images.length}
+              </p>
+            </div>
+          </div>
+
+          {/* Navigation Arrows for Lightbox if multiple images */}
+          {images.length > 1 && (
+            <>
+              {/* Left Arrow */}
+              <button 
+                onClick={() => setActiveImageIdx((prev) => (prev === 0 ? images.length - 1 : prev - 1))}
+                className="absolute left-4 p-3 bg-slate-900/50 hover:bg-slate-900/85 text-white/80 hover:text-white rounded-lg border border-white/10 cursor-pointer backdrop-blur-sm flex items-center justify-center transition-all hover:scale-105 active:scale-95"
+                aria-label="Previous image"
+              >
+                <span className="material-symbols-outlined font-bold">chevron_left</span>
+              </button>
+              {/* Right Arrow */}
+              <button 
+                onClick={() => setActiveImageIdx((prev) => (prev === images.length - 1 ? 0 : prev + 1))}
+                className="absolute right-4 p-3 bg-slate-900/50 hover:bg-slate-900/85 text-white/80 hover:text-white rounded-lg border border-white/10 cursor-pointer backdrop-blur-sm flex items-center justify-center transition-all hover:scale-105 active:scale-95"
+                aria-label="Next image"
+              >
+                <span className="material-symbols-outlined font-bold">chevron_right</span>
+              </button>
+            </>
+          )}
+        </div>
+      )}
     </>
   );
 }
