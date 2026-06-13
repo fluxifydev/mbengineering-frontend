@@ -12,37 +12,31 @@ const slides = [
     title: "Engineering Precision. Powering Productivity.",
     description: "Leveraging over 18 years of specialized engineering excellence, we design and manufacture high-performance converting, slitting, and printing machinery. Our bespoke B2B solutions are engineered for maximum efficiency, absolute precision, and global industrial leadership.",
     image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBl7WjV1gzz4GSOnc14sfpD-OsA2R2tWgifgJgS7EBCFsgXqychb9aJHTWRwadGanIX5vfCtf7OT-TU6AoLhPWGIKUrFjq8qWDODbOQ6_l0YZXtCth2aOg02BhbIf30khqXQ52sDfHNZ4USwWFqNsjyk4hXsNTSvFEA7PL-VBEUiglDVYGkXYVS9i6dhddAZ-vdZ4dYvkVABYE5KjgpXPGIdUv-ExJjlMKJqTtLkA-wG3nI7uDL95hsdANLGBQ19QOMBGV6QaAwNtI",
-    gradient: "linear-gradient(to right, rgba(0, 19, 135, 0.95) 0%, rgba(0, 19, 135, 0.6) 50%, rgba(0, 0, 0, 0.3) 100%)"
   },
   {
     title: "Innovative Machinery. Trusted Worldwide.",
     description: "Serving customers across India and international markets, MB Engineering Works delivers reliable converting and printing machinery built for durability, precision, and long-term performance. Trusted by manufacturers who demand quality without compromise.",
     image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=1920",
-    gradient: "linear-gradient(to right, rgba(15, 118, 110, 0.95) 0%, rgba(15, 118, 110, 0.6) 50%, rgba(0, 0, 0, 0.3) 100%)"
   },
   {
     title: "Custom Solutions for Modern Manufacturing.",
     description: "Every production line has unique requirements. We develop tailored machinery solutions that optimize workflow, improve productivity, and deliver consistent results, helping businesses stay competitive in an evolving industrial landscape.",
     image: "/custom-solutions.png",
-    gradient: "linear-gradient(to right, rgba(67, 56, 202, 0.95) 0%, rgba(67, 56, 202, 0.6) 50%, rgba(0, 0, 0, 0.3) 100%)"
   },
   {
     title: "Driving Industrial Excellence Since 2008.",
     description: "For nearly two decades, MB Engineering Works has empowered industries with innovative machinery, dependable technical support, and engineering expertise. Our commitment to quality continues to build lasting partnerships around the world.",
     image: "https://images.unsplash.com/photo-1616401784845-180882ba9ba8?auto=format&fit=crop&q=80&w=1920",
-    gradient: "linear-gradient(to right, rgba(30, 41, 59, 0.95) 0%, rgba(30, 41, 59, 0.6) 50%, rgba(0, 0, 0, 0.3) 100%)"
   },
   {
     title: "Precision Slitting & Rewinding Technology.",
     description: "Offering high-speed performance, micron-level tension control, and superior edge-alignment, our slitter rewinders are built to handle paper, film, foils, and specialized substrates with zero deflection.",
     image: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&q=80&w=1920",
-    gradient: "linear-gradient(to right, rgba(17, 24, 39, 0.95) 0%, rgba(17, 24, 39, 0.6) 50%, rgba(0, 0, 0, 0.3) 100%)"
   },
   {
     title: "End-to-End Engineering Partnership.",
     description: "From personalized engineering consultation and layout design to seamless onsite integration and 24/7 technical support, we ensure your production lines run at maximum efficiency.",
     image: "https://images.unsplash.com/photo-1565034946487-077786996e27?auto=format&fit=crop&q=80&w=1920",
-    gradient: "linear-gradient(to right, rgba(88, 28, 135, 0.95) 0%, rgba(88, 28, 135, 0.6) 50%, rgba(0, 0, 0, 0.3) 100%)"
   }
 ];
 
@@ -96,11 +90,8 @@ export default function Hero({ onRequestQuote }: HeroProps) {
               src={slide.image}
               loading={idx === 0 ? "eager" : "lazy"}
             />
-            {/* Dynamic color overlay */}
-            <div 
-              className="absolute inset-0 z-11 transition-all duration-1000"
-              style={{ background: slide.gradient }}
-            />
+            {/* Subtle dark overlay for depth, no colors */}
+            <div className="absolute inset-0 z-11 bg-black/30" />
           </div>
         ))}
         
@@ -129,7 +120,7 @@ export default function Hero({ onRequestQuote }: HeroProps) {
 
       {/* Hero Content Container */}
       <div className="relative z-20 max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop w-full grid grid-cols-12 gap-gutter">
-        <div className="col-span-12 lg:col-span-8 xl:col-span-7 space-y-6 md:space-y-8">
+        <div className="col-span-12 lg:col-span-9 xl:col-span-8 space-y-6 md:space-y-8 bg-slate-950/60 backdrop-blur-md border border-white/10 p-6 sm:p-8 md:p-10 lg:p-12 rounded-2xl shadow-2xl">
           {/* ISO Cert Badge - Permanent */}
           <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 px-3.5 py-1.5 rounded-full text-white/95 text-[10px] font-label uppercase tracking-widest font-bold">
             <span className="material-symbols-outlined text-sm text-primary-fixed-dim">verified</span>
