@@ -90,8 +90,6 @@ export default function Hero({ onRequestQuote }: HeroProps) {
               src={slide.image}
               loading={idx === 0 ? "eager" : "lazy"}
             />
-            {/* Subtle dark overlay for depth, no colors */}
-            <div className="absolute inset-0 z-11 bg-black/30" />
           </div>
         ))}
         
@@ -120,7 +118,7 @@ export default function Hero({ onRequestQuote }: HeroProps) {
 
       {/* Hero Content Container */}
       <div className="relative z-20 max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop w-full grid grid-cols-12 gap-gutter">
-        <div className="col-span-12 lg:col-span-9 xl:col-span-8 space-y-6 md:space-y-8 bg-slate-950/60 backdrop-blur-md border border-white/10 p-6 sm:p-8 md:p-10 lg:p-12 rounded-2xl shadow-2xl">
+        <div className="col-span-12 lg:col-span-9 xl:col-span-8 space-y-6 md:space-y-8 bg-primary/25 backdrop-blur-md border border-white/15 p-6 sm:p-8 md:p-10 lg:p-12 rounded-2xl shadow-2xl">
           {/* ISO Cert Badge - Permanent */}
           <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 px-3.5 py-1.5 rounded-full text-white/95 text-[10px] font-label uppercase tracking-widest font-bold">
             <span className="material-symbols-outlined text-sm text-primary-fixed-dim">verified</span>
