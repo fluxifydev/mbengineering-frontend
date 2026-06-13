@@ -42,7 +42,6 @@ const slides = [
 
 export default function Hero({ onRequestQuote }: HeroProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
 
   const highlights = [
     { icon: 'check_circle', text: '18+ Years' },
@@ -52,14 +51,12 @@ export default function Hero({ onRequestQuote }: HeroProps) {
   ];
 
   useEffect(() => {
-    if (isPaused) return;
-
     const timer = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % slides.length);
     }, 6000);
 
     return () => clearInterval(timer);
-  }, [isPaused, currentIndex]);
+  }, [currentIndex]);
 
   const handleNext = () => {
     setCurrentIndex((prev) => (prev + 1) % slides.length);
@@ -71,8 +68,6 @@ export default function Hero({ onRequestQuote }: HeroProps) {
 
   return (
     <section 
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
       className="relative min-h-[80vh] lg:min-h-[85vh] flex items-center overflow-hidden animate-fade-in py-12 md:py-20 lg:py-xl scroll-mt-20 group"
     >
       {/* Background Images & Overlays Fading Container */}
