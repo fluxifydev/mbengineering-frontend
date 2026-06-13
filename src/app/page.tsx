@@ -9,6 +9,7 @@ import Machinery from '@/components/Machinery';
 import WhyTrustUs from '@/components/WhyTrustUs';
 import Timeline from '@/components/Timeline';
 import Services from '@/components/Services';
+import VideoGallery from '@/components/VideoGallery';
 import Testimonials from '@/components/Testimonials';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
@@ -70,6 +71,9 @@ export default function Home() {
         {/* Process Flows & Testimonials */}
         <Services />
         
+        {/* Video Gallery */}
+        <VideoGallery />
+
         {/* Testimonials Review Cards */}
         <Testimonials />
 

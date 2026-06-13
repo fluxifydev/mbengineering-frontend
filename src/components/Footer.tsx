@@ -2,15 +2,9 @@
 
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function Footer() {
-  const solutions = [
-    { label: 'CNC Machining', href: '#' },
-    { label: 'Hydraulic Systems', href: '#' },
-    { label: 'Automated Assembly', href: '#' },
-    { label: 'Custom Converting', href: '#' },
-  ];
-
   const company = [
     { label: 'Our Story', href: '#about' },
     { label: 'Global Support', href: '#global' },
@@ -23,7 +17,7 @@ export default function Footer() {
       <div className="max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop grid grid-cols-1 lg:grid-cols-12 gap-y-12 lg:gap-x-gutter">
         {/* Brand Column */}
         <div className="col-span-12 lg:col-span-4 space-y-6">
-          <div className="flex items-center gap-4">
+          <Link href="/" className="flex items-center gap-4 hover:opacity-90 transition-opacity max-w-max">
             <Image 
               alt="MB Engineering Works Logo" 
               className="h-10 w-auto" 
@@ -32,7 +26,7 @@ export default function Footer() {
               height={40}
             />
             <span className="font-display text-xl text-white font-bold tracking-tight">MB Engineering Works</span>
-          </div>
+          </Link>
           <p className="text-white/60 text-sm leading-relaxed max-w-[360px] font-medium">
             Precision Engineered for Industry. Since 2008, MB Engineering Works has been setting the industry standard for high-performance slitting, converting, and printing systems globally.
           </p>
@@ -55,19 +49,7 @@ export default function Footer() {
         </div>
 
         {/* Links Column */}
-        <div className="col-span-12 lg:col-span-8 grid grid-cols-2 md:grid-cols-3 gap-8">
-          <div>
-            <h5 className="font-bold mb-6 text-primary-fixed-dim uppercase text-[10px] md:text-[11px] font-label tracking-widest">Solutions</h5>
-            <ul className="space-y-4 text-xs md:text-sm text-white/60">
-              {solutions.map((item) => (
-                <li key={item.label}>
-                  <a className="hover:text-white transition-colors font-medium" href={item.href}>
-                    {item.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
+        <div className="col-span-12 lg:col-span-8 grid grid-cols-2 gap-8">
           <div>
             <h5 className="font-bold mb-6 text-primary-fixed-dim uppercase text-[10px] md:text-[11px] font-label tracking-widest">Company</h5>
             <ul className="space-y-4 text-xs md:text-sm text-white/60">

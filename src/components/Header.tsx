@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 interface HeaderProps {
   onRequestQuote: () => void;
@@ -21,7 +22,7 @@ export default function Header({ onRequestQuote }: HeaderProps) {
     <header className="fixed top-0 w-full z-50 bg-surface/95 backdrop-blur-md border-b border-outline-variant/60 h-20 transition-all duration-300">
       <nav className="max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop flex justify-between items-center h-full">
         {/* Logo Section */}
-        <a href="#" className="flex items-center gap-3 md:gap-4 shrink-0 transition-transform active:scale-[0.98]">
+        <Link href="/" className="flex items-center gap-3 md:gap-4 shrink-0 transition-transform active:scale-[0.98]">
           <div className="relative h-10 w-10 md:h-12 md:w-12 flex items-center justify-center">
             <Image 
               alt="MB Engineering Works Logo" 
@@ -35,7 +36,7 @@ export default function Header({ onRequestQuote }: HeaderProps) {
           <span className="font-display text-base md:text-xl xl:text-2xl text-primary font-bold tracking-tight">
             MB Engineering Works
           </span>
-        </a>
+        </Link>
 
         {/* Desktop Navigation */}
         <div className="hidden lg:flex items-center gap-6 xl:gap-8">
