@@ -1,10 +1,9 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
-import { db } from '@/lib/firebase';
-import { collection, getDocs, orderBy, query } from 'firebase/firestore';
 import ProductCard, { RenderProduct } from './ProductCard';
+import { getCachedProducts } from '@/lib/productsCache';
 
 interface MachineryProps {
   onRequestQuote: (machineName: string) => void;
@@ -17,29 +16,10 @@ export default function Machinery({ onRequestQuote }: MachineryProps) {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const q = query(collection(db, 'products'), orderBy('createdAt', 'desc'));
-        const snapshot = await getDocs(q);
-        if (!snapshot.empty) {
-          const list = snapshot.docs.map(doc => {
-            const data = doc.data();
-            return {
-              id: doc.id,
-              name: data.name || '',
-              description: data.description || '',
-              imageUrl: data.imageUrl || '',
-              specifications: data.specifications || [],
-              brochureUrl: data.brochureUrl || '',
-              category: data.category || '',
-              subcategory: data.subcategory || '',
-              imageUrls: data.imageUrls || [],
-            };
-          });
-          setProducts(list);
-        } else {
-          setProducts([]);
-        }
+        const list = await getCachedProducts();
+        setProducts(list);
       } catch (error) {
-        console.error('Error fetching products from Firestore:', error);
+        console.error('Error loading products in Machinery:', error);
         setProducts([]);
       } finally {
         setLoading(false);
@@ -49,21 +29,26 @@ export default function Machinery({ onRequestQuote }: MachineryProps) {
   }, []);
 
   // Group products by category
-  const categoriesMap: Record<string, RenderProduct[]> = {};
-  products.forEach((product) => {
-    const cat = product.category ? product.category.trim() : 'General Machinery';
-    if (!categoriesMap[cat]) {
-      categoriesMap[cat] = [];
-    }
-    categoriesMap[cat].push(product);
-  });
+  const categoriesMap = useMemo(() => {
+    const map: Record<string, RenderProduct[]> = {};
+    products.forEach((product) => {
+      const cat = product.category ? product.category.trim() : 'General Machinery';
+      if (!map[cat]) {
+        map[cat] = [];
+      }
+      map[cat].push(product);
+    });
+    return map;
+  }, [products]);
 
-  const categoryNames = Object.keys(categoriesMap).sort((a, b) => {
-    // Keep 'General Machinery' at the end, otherwise sort alphabetically
-    if (a === 'General Machinery') return 1;
-    if (b === 'General Machinery') return -1;
-    return a.localeCompare(b);
-  });
+  const categoryNames = useMemo(() => {
+    return Object.keys(categoriesMap).sort((a, b) => {
+      // Keep 'General Machinery' at the end, otherwise sort alphabetically
+      if (a === 'General Machinery') return 1;
+      if (b === 'General Machinery') return -1;
+      return a.localeCompare(b);
+    });
+  }, [categoriesMap]);
 
   return (
     <section className="py-16 md:py-24 lg:py-xl bg-surface-container-low scroll-mt-20 overflow-hidden" id="machinery">
@@ -108,7 +93,7 @@ export default function Machinery({ onRequestQuote }: MachineryProps) {
             ))}
           </div>
         ) : products.length === 0 ? (
-          // Empty State
+          // Empty Catalog State
           <div className="text-center py-12 bg-white rounded-2xl border border-outline-variant/50 shadow-sm">
             <span className="material-symbols-outlined text-5xl text-primary/40 mb-3">
               precision_manufacturing
@@ -116,7 +101,7 @@ export default function Machinery({ onRequestQuote }: MachineryProps) {
             <p className="text-on-surface-variant font-medium">No products available at the moment.</p>
           </div>
         ) : (
-          // Render grouped categories
+          // Render grouped categories (Default layout)
           <div className="space-y-16">
             {categoryNames.map((categoryName) => {
               const categoryProducts = categoriesMap[categoryName];
@@ -135,11 +120,12 @@ export default function Machinery({ onRequestQuote }: MachineryProps) {
                   {/* Horizontal scrolling on mobile, 3-column grid on desktop */}
                   <div className="flex overflow-x-auto no-scrollbar scroll-smooth gap-gutter pb-6 -mx-margin-mobile px-margin-mobile lg:mx-0 lg:px-0 lg:grid lg:grid-cols-3">
                     {displayedProducts.map((product) => (
-                      <ProductCard 
-                        key={product.id} 
-                        product={product} 
-                        onRequestQuote={onRequestQuote} 
-                      />
+                      <div key={product.id} className="w-[80vw] sm:w-[48vw] lg:w-full shrink-0 lg:shrink flex">
+                        <ProductCard 
+                          product={product} 
+                          onRequestQuote={onRequestQuote} 
+                        />
+                      </div>
                     ))}
                   </div>
 

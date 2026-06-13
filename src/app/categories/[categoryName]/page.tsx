@@ -161,11 +161,12 @@ export default function CategoryPage() {
           // Simple Grid Layout when no subcategories are defined
           <div className="flex overflow-x-auto no-scrollbar scroll-smooth gap-gutter pb-6 -mx-margin-mobile px-margin-mobile lg:mx-0 lg:px-0 lg:grid lg:grid-cols-3">
             {products.map((product) => (
-              <ProductCard 
-                key={product.id} 
-                product={product} 
-                onRequestQuote={handleOpenQuote} 
-              />
+              <div key={product.id} className="w-[80vw] sm:w-[48vw] lg:w-full shrink-0 lg:shrink flex">
+                <ProductCard 
+                  product={product} 
+                  onRequestQuote={handleOpenQuote} 
+                />
+              </div>
             ))}
           </div>
         ) : (
@@ -187,11 +188,12 @@ export default function CategoryPage() {
                   {/* 3-column Grid for products in this subcategory */}
                   <div className="flex overflow-x-auto no-scrollbar scroll-smooth gap-gutter pb-6 -mx-margin-mobile px-margin-mobile lg:mx-0 lg:px-0 lg:grid lg:grid-cols-3">
                     {subcatProducts.map((product) => (
-                      <ProductCard 
-                        key={product.id} 
-                        product={product} 
-                        onRequestQuote={handleOpenQuote} 
-                      />
+                      <div key={product.id} className="w-[80vw] sm:w-[48vw] lg:w-full shrink-0 lg:shrink flex">
+                        <ProductCard 
+                          product={product} 
+                          onRequestQuote={handleOpenQuote} 
+                        />
+                      </div>
                     ))}
                   </div>
                 </div>
