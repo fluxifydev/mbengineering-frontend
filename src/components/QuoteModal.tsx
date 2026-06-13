@@ -49,14 +49,40 @@ export default function QuoteModal({ isOpen, onClose, initialMachine = '' }: Quo
     setIsSubmitting(true);
     setSubmitError(null);
     try {
-      await addDoc(collection(db, 'quotes'), {
-        fullName: formData.fullName,
-        companyName: formData.companyName,
-        email: formData.email,
-        country: formData.country,
-        machineRequirement: formData.machineRequirement,
-        createdAt: serverTimestamp(),
+      // Submit to Formspree
+      const response = await fetch('https://formspree.io/f/mvznwoqv', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          fullName: formData.fullName,
+          companyName: formData.companyName,
+          email: formData.email,
+          country: formData.country,
+          machineRequirement: formData.machineRequirement,
+        })
       });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit form to Formspree');
+      }
+
+      // Save to Firebase (Optional, but good to keep if it exists)
+      try {
+        await addDoc(collection(db, 'quotes'), {
+          fullName: formData.fullName,
+          companyName: formData.companyName,
+          email: formData.email,
+          country: formData.country,
+          machineRequirement: formData.machineRequirement,
+          createdAt: serverTimestamp(),
+        });
+      } catch (fbErr) {
+        console.error('Firebase save error (silent fallback):', fbErr);
+      }
+
       setIsSubmitted(true);
     } catch (err: any) {
       console.error('Error saving quote inquiry:', err);

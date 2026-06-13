@@ -48,14 +48,39 @@ export default function Contact() {
     setSubmitError(null);
 
     try {
-      await addDoc(collection(db, 'inquiries'), {
-        fullName: formData.fullName,
-        companyName: formData.companyName,
-        email: formData.email,
-        country: formData.country,
-        requirement: formData.requirement,
-        createdAt: serverTimestamp(),
+      // Submit to Formspree
+      const response = await fetch('https://formspree.io/f/mvznwoqv', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          fullName: formData.fullName,
+          companyName: formData.companyName,
+          email: formData.email,
+          country: formData.country,
+          requirement: formData.requirement,
+        })
       });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit form to Formspree');
+      }
+
+      // Save to Firebase (Optional, but good to keep if it exists)
+      try {
+        await addDoc(collection(db, 'inquiries'), {
+          fullName: formData.fullName,
+          companyName: formData.companyName,
+          email: formData.email,
+          country: formData.country,
+          requirement: formData.requirement,
+          createdAt: serverTimestamp(),
+        });
+      } catch (fbErr) {
+        console.error('Firebase save error (silent fallback):', fbErr);
+      }
 
       setIsSubmitted(true);
       setFormData({
