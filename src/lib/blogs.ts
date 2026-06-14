@@ -150,29 +150,43 @@ export async function getBlogs(): Promise<BlogArticle[]> {
     const q = collection(db, 'blogs');
     const snapshot = await getDocs(q);
 
-    let fetchedBlogs: BlogArticle[] = [];
+    interface SortingArticle {
+      article: BlogArticle;
+      timestamp: number;
+    }
+
+    const fetchedBlogs: SortingArticle[] = [];
     if (!snapshot.empty) {
-      fetchedBlogs = snapshot.docs.map(doc => mapDocToBlogArticle(doc));
+      snapshot.docs.forEach(doc => {
+        const article = mapDocToBlogArticle(doc);
+        const data = doc.data();
+        let timestamp = 0;
+        if (data.createdAt && typeof data.createdAt.seconds === 'number') {
+          timestamp = data.createdAt.seconds * 1000;
+        } else if (data.date) {
+          const parsed = new Date(formatBlogDate(data.date)).getTime();
+          timestamp = isNaN(parsed) ? Date.now() : parsed;
+        } else {
+          timestamp = Date.now();
+        }
+        fetchedBlogs.push({ article, timestamp });
+      });
     }
 
     // Merge Firestore articles with preset static articles.
-    // If a Firestore article shares a slug with a static article, the Firestore version overrides it.
     const mergedBlogs = [...fetchedBlogs];
     for (const staticArticle of blogArticles) {
-      if (!mergedBlogs.some(b => b.slug === staticArticle.slug)) {
-        mergedBlogs.push(staticArticle);
+      if (!mergedBlogs.some(b => b.article.slug === staticArticle.slug)) {
+        const parsed = new Date(staticArticle.date).getTime();
+        const timestamp = isNaN(parsed) ? 0 : parsed;
+        mergedBlogs.push({ article: staticArticle, timestamp });
       }
     }
     
-    // Sort all blogs by date (descending)
-    return mergedBlogs.sort((a, b) => {
-      const dateA = new Date(a.date).getTime();
-      const dateB = new Date(b.date).getTime();
-      if (!isNaN(dateA) && !isNaN(dateB)) {
-        return dateB - dateA;
-      }
-      return 0;
-    });
+    // Sort all blogs by timestamp (descending, newest first)
+    mergedBlogs.sort((a, b) => b.timestamp - a.timestamp);
+    
+    return mergedBlogs.map(item => item.article);
   } catch (error) {
     console.error('Error fetching blogs from Firestore:', error);
     return blogArticles; // Safe fallback on error
