@@ -120,14 +120,22 @@ export async function getBlogs(): Promise<BlogArticle[]> {
     const q = collection(db, 'blogs');
     const snapshot = await getDocs(q);
 
-    if (snapshot.empty) {
-      return blogArticles; // Fallback to static seed data
+    let fetchedBlogs: BlogArticle[] = [];
+    if (!snapshot.empty) {
+      fetchedBlogs = snapshot.docs.map(doc => mapDocToBlogArticle(doc));
     }
 
-    const fetchedBlogs = snapshot.docs.map(doc => mapDocToBlogArticle(doc));
+    // Merge Firestore articles with preset static articles.
+    // If a Firestore article shares a slug with a static article, the Firestore version overrides it.
+    const mergedBlogs = [...fetchedBlogs];
+    for (const staticArticle of blogArticles) {
+      if (!mergedBlogs.some(b => b.slug === staticArticle.slug)) {
+        mergedBlogs.push(staticArticle);
+      }
+    }
     
-    // Sort by date (descending, parsing dates or using position)
-    return fetchedBlogs.sort((a, b) => {
+    // Sort all blogs by date (descending)
+    return mergedBlogs.sort((a, b) => {
       const dateA = new Date(a.date).getTime();
       const dateB = new Date(b.date).getTime();
       if (!isNaN(dateA) && !isNaN(dateB)) {
