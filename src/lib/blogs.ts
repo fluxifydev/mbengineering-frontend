@@ -36,8 +36,36 @@ function formatBlogDate(dateValue: any): string {
 
 // Helper to construct markdown content from separate h1, h2, h3, h4 and paragraph fields if content is absent
 function buildBlogContent(data: any): string {
-  if (data.content) {
-    return String(data.content);
+  // If content is already a string
+  if (data.content && typeof data.content === 'string') {
+    return data.content;
+  }
+
+  // If content (or blocks) is an array of blocks from the Dynamic Content Builder
+  const rawBlocks = data.content || data.blocks || data.contentBlocks;
+  if (Array.isArray(rawBlocks)) {
+    const markdownParts: string[] = [];
+    for (const block of rawBlocks) {
+      if (!block) continue;
+      const type = String(block.type || block.tag || '').toLowerCase().trim();
+      const text = String(block.text || block.value || block.content || block.textVal || '').trim();
+      if (!text) continue;
+
+      if (type === 'h1' || type === 'heading1' || type === 'heading 1') {
+        markdownParts.push(`# ${text}`);
+      } else if (type === 'h2' || type === 'heading2' || type === 'heading 2') {
+        markdownParts.push(`## ${text}`);
+      } else if (type === 'h3' || type === 'heading3' || type === 'heading 3') {
+        markdownParts.push(`### ${text}`);
+      } else if (type === 'h4' || type === 'heading4' || type === 'heading 4') {
+        markdownParts.push(`#### ${text}`);
+      } else if (type === 'paragraph' || type === 'p' || type === 'text') {
+        markdownParts.push(text);
+      } else {
+        markdownParts.push(text);
+      }
+    }
+    return markdownParts.join('\n\n');
   }
 
   const parts: string[] = [];
