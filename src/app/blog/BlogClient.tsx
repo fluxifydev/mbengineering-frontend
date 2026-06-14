@@ -6,9 +6,13 @@ import Image from 'next/image';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import QuoteModal from '@/components/QuoteModal';
-import { blogArticles } from '@/lib/blogData';
+import { BlogArticle } from '@/lib/blogData';
 
-export default function BlogClient() {
+interface BlogClientProps {
+  initialArticles: BlogArticle[];
+}
+
+export default function BlogClient({ initialArticles }: BlogClientProps) {
   const [isQuoteOpen, setIsQuoteOpen] = useState(false);
   const [selectedMachine, setSelectedMachine] = useState('');
   const [showScrollTop, setShowScrollTop] = useState(false);
@@ -48,7 +52,7 @@ export default function BlogClient() {
 
         {/* Blog Articles Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
-          {blogArticles.map((article) => (
+          {initialArticles.map((article) => (
             <article 
               key={article.slug}
               className="bg-white rounded-xl border border-outline-variant/60 overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 flex flex-col justify-between group"

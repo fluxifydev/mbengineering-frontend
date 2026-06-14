@@ -1,20 +1,23 @@
 import BlogDetailClient from './BlogDetailClient';
-import { blogArticles } from '@/lib/blogData';
+import { getBlogs, getBlogBySlug } from '@/lib/blogs';
 import type { Metadata } from 'next';
 
 interface Props {
   params: Promise<{ slug: string }>;
 }
 
+export const dynamic = 'force-dynamic';
+
 export async function generateStaticParams() {
-  return blogArticles.map((article) => ({
+  const articles = await getBlogs();
+  return articles.map((article) => ({
     slug: article.slug,
   }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const article = blogArticles.find((a) => a.slug === slug);
+  const article = await getBlogBySlug(slug);
 
   if (article) {
     return {
@@ -45,5 +48,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function Page({ params }: Props) {
   const { slug } = await params;
-  return <BlogDetailClient slug={slug} />;
+  const article = await getBlogBySlug(slug);
+  return <BlogDetailClient slug={slug} initialArticle={article} />;
 }

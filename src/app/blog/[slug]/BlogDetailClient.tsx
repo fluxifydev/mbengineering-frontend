@@ -6,13 +6,14 @@ import Image from 'next/image';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import QuoteModal from '@/components/QuoteModal';
-import { blogArticles } from '@/lib/blogData';
+import { blogArticles, BlogArticle } from '@/lib/blogData';
 
 interface BlogDetailClientProps {
   slug: string;
+  initialArticle: BlogArticle | null;
 }
 
-export default function BlogDetailClient({ slug }: BlogDetailClientProps) {
+export default function BlogDetailClient({ slug, initialArticle }: BlogDetailClientProps) {
   const router = useRouter();
   const [isQuoteOpen, setIsQuoteOpen] = useState(false);
   const [selectedMachine, setSelectedMachine] = useState('');
@@ -36,7 +37,7 @@ export default function BlogDetailClient({ slug }: BlogDetailClientProps) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const article = blogArticles.find((a) => a.slug === slug);
+  const article = initialArticle;
 
   if (!article) {
     return (
@@ -66,6 +67,14 @@ export default function BlogDetailClient({ slug }: BlogDetailClientProps) {
       const trimmed = block.trim();
       if (!trimmed) return null;
 
+      if (trimmed.startsWith('# ')) {
+        return (
+          <h1 key={idx} className="font-display text-2xl sm:text-3xl font-bold text-primary mt-10 mb-5">
+            {trimmed.replace('# ', '')}
+          </h1>
+        );
+      }
+
       if (trimmed.startsWith('## ')) {
         return (
           <h2 key={idx} className="font-display text-xl sm:text-2xl font-bold text-primary mt-8 mb-4">
@@ -79,6 +88,14 @@ export default function BlogDetailClient({ slug }: BlogDetailClientProps) {
           <h3 key={idx} className="font-display text-lg font-bold text-primary mt-6 mb-3">
             {trimmed.replace('### ', '')}
           </h3>
+        );
+      }
+
+      if (trimmed.startsWith('#### ')) {
+        return (
+          <h4 key={idx} className="font-display text-base font-bold text-primary mt-4 mb-2">
+            {trimmed.replace('#### ', '')}
+          </h4>
         );
       }
 

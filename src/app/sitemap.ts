@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { getCachedProducts } from '@/lib/productsCache';
-import { blogArticles } from '@/lib/blogData';
+import { getBlogs } from '@/lib/blogs';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://www.mbengineering.online';
@@ -42,8 +42,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.6,
     }));
 
-    // Blog articles routes
-    const blogRoutes = blogArticles.map((article) => ({
+    // Blog articles routes dynamically fetched from Firestore
+    const blogs = await getBlogs();
+    const blogRoutes = blogs.map((article) => ({
       url: `${baseUrl}/blog/${article.slug}`,
       lastModified: new Date(),
       changeFrequency: 'weekly' as const,
