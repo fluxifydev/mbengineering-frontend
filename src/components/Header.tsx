@@ -13,11 +13,12 @@ interface HeaderProps {
 
 const siteSections = [
   { label: 'Home', href: '/', keywords: 'home landing main top hero' },
-  { label: 'Products', href: '/#machinery', keywords: 'products machinery machine lineup models slitter converting printing' },
-  { label: 'About Us', href: '/#about', keywords: 'about us story company history established 2008 mission vision cnc' },
-  { label: 'Services', href: '/#services', keywords: 'services process flows manufacturing technical layout custom support' },
-  { label: 'Global Operations', href: '/#global', keywords: 'global operations export timeline milestones international support' },
-  { label: 'Contact Us', href: '/#contact', keywords: 'contact us contacts technical inquiry quote address map directions factory' },
+  { label: 'Products', href: '/machines', keywords: 'products machinery machine lineup models slitter converting printing' },
+  { label: 'About Us', href: '/about', keywords: 'about us story company history established 2008 mission vision cnc' },
+  { label: 'Services', href: '/services', keywords: 'services process flows manufacturing technical layout custom support' },
+  { label: 'Global Operations', href: '/about#global', keywords: 'global operations export timeline milestones international support' },
+  { label: 'Blog', href: '/blog', keywords: 'blog news articles case studies technical papers industry insights' },
+  { label: 'Contact Us', href: '/contact', keywords: 'contact us contacts technical inquiry quote address map directions factory' },
 ];
 
 export default function Header({ onRequestQuote }: HeaderProps) {
@@ -31,9 +32,11 @@ export default function Header({ onRequestQuote }: HeaderProps) {
 
   const navLinks = [
     { label: 'Home', href: '/' },
-    { label: 'Products', href: '/#machinery' },
-    { label: 'Contacts', href: '/#contact' },
-    { label: 'About Us', href: '/#about' },
+    { label: 'Products', href: '/machines' },
+    { label: 'Services', href: '/services' },
+    { label: 'About Us', href: '/about' },
+    { label: 'Blog', href: '/blog' },
+    { label: 'Contact Us', href: '/contact' },
   ];
 
   // Fetch products on mount for instant header searching
@@ -111,7 +114,7 @@ export default function Header({ onRequestQuote }: HeaderProps) {
         <Link href="/" className="flex items-center gap-3 md:gap-4 shrink-0 transition-transform active:scale-[0.98]">
           <div className="relative h-10 w-10 md:h-12 md:w-12 flex items-center justify-center">
             <Image 
-              alt="MB Engineering Works Logo" 
+              alt="MB Engineering Works logo mark representing precision industrial machinery" 
               className="object-contain" 
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8pfsrELa6NAoqq-Pdz2yF8hwdx2uUtdO9cTjwrZ2bqcUN_MZPpWKSSiLX2FFvFwc3EzK0xmTLTNkJxKFPdQN9EZSFVo-RT4Xch_r6v2D9W5tn-cXJZajWJqfdTBtEXm46S4bE1J1w5482nq9VfNj9fcRNzKDdHc1_5N8gp3PuUIn3FCek4KDIt9PHUtkDXAC_vi_vOxUNJDP_BAEfnCHnMeCVt4fkyfNrEYf6T3Ks9ZOq6yTjHEpXjdZr5Kc22mGxI1JwLB_EZ8A"
               fill

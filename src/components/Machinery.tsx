@@ -7,9 +7,10 @@ import { getCachedProducts } from '@/lib/productsCache';
 
 interface MachineryProps {
   onRequestQuote: (machineName: string) => void;
+  hideHeader?: boolean;
 }
 
-export default function Machinery({ onRequestQuote }: MachineryProps) {
+export default function Machinery({ onRequestQuote, hideHeader = false }: MachineryProps) {
   const [products, setProducts] = useState<RenderProduct[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -55,14 +56,16 @@ export default function Machinery({ onRequestQuote }: MachineryProps) {
       <div className="max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop">
         
         {/* Main Section Header */}
-        <div className="max-w-2xl space-y-4 mb-16 text-left">
-          <h2 className="font-display text-2xl sm:text-3xl md:text-5xl font-bold text-primary tracking-tight">
-            Our Machinery
-          </h2>
-          <p className="text-sm sm:text-base text-on-surface-variant">
-            Engineered for endurance and high-precision output. Discover our industrial product lineup categorized for your engineering needs.
-          </p>
-        </div>
+        {!hideHeader && (
+          <div className="max-w-2xl space-y-4 mb-16 text-left">
+            <h2 className="font-display text-2xl sm:text-3xl md:text-5xl font-bold text-primary tracking-tight">
+              Our Machinery
+            </h2>
+            <p className="text-sm sm:text-base text-on-surface-variant">
+              Engineered for endurance and high-precision output. Discover our industrial product lineup categorized for your engineering needs.
+            </p>
+          </div>
+        )}
 
         {loading ? (
           // Loading skeleton state

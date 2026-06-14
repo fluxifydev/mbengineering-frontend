@@ -1,5 +1,3 @@
-'use client';
-
 import React from 'react';
 import Image from 'next/image';
 
@@ -72,7 +70,7 @@ export default function Timeline() {
             <div className="absolute inset-0 bg-primary/20 z-10 pointer-events-none mix-blend-overlay group-hover:bg-primary/10 transition-colors duration-300" />
             
             <Image 
-              alt="Global Export Connectivity Map"
+              alt="Global map showcasing MB Engineering Works active B2B export countries including Germany, Poland, Saudi Arabia, UAE, Thailand, and Vietnam"
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-102"
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuCEgqm76GUdOW0elRPEYE5Tqr-MoUw9zdCzwj7fopqw_UDKevJYttBavlbRhsxbvlmThgGUMTCtsM26zRVNeSDegg-U5K1uvv--9rb7pdZMmasPJVJ9_4dgzkr8wxB0HNDpKRj8DEsOJj4AJM0g5WFZ_musNpCHWLKjKRJCBumAXG7LF_szGa1sVEANzuOmwAEBTvCYYmnuk0_z6oAG1OVLag8Xw0r6cgo-z-_jQbJNmX3XZWtK14gS_ZUTcxm1Dv11LS9ms0OZDno"
               fill

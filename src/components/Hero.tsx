@@ -12,31 +12,37 @@ const slides = [
     title: "Engineering Precision. Powering Productivity.",
     description: "Leveraging over 18 years of specialized engineering excellence, we design and manufacture high-performance converting, slitting, and printing machinery. Our bespoke B2B solutions are engineered for maximum efficiency, absolute precision, and global industrial leadership.",
     image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBl7WjV1gzz4GSOnc14sfpD-OsA2R2tWgifgJgS7EBCFsgXqychb9aJHTWRwadGanIX5vfCtf7OT-TU6AoLhPWGIKUrFjq8qWDODbOQ6_l0YZXtCth2aOg02BhbIf30khqXQ52sDfHNZ4USwWFqNsjyk4hXsNTSvFEA7PL-VBEUiglDVYGkXYVS9i6dhddAZ-vdZ4dYvkVABYE5KjgpXPGIdUv-ExJjlMKJqTtLkA-wG3nI7uDL95hsdANLGBQ19QOMBGV6QaAwNtI",
+    alt: "High-precision B2B converting and slitting rewinder machine manufacturing line on the factory floor",
   },
   {
     title: "Innovative Machinery. Trusted Worldwide.",
     description: "Serving customers across India and international markets, MB Engineering Works delivers reliable converting and printing machinery built for durability, precision, and long-term performance. Trusted by manufacturers who demand quality without compromise.",
     image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=1920",
+    alt: "Technician monitoring industrial printing and converting machinery in a B2B packaging plant",
   },
   {
     title: "Custom Solutions for Modern Manufacturing.",
     description: "Every production line has unique requirements. We develop tailored machinery solutions that optimize workflow, improve productivity, and deliver consistent results, helping businesses stay competitive in an evolving industrial landscape.",
     image: "/custom-solutions.png",
+    alt: "Engineered blueprint overlay of a customized industrial slitter rewinder system",
   },
   {
     title: "Driving Industrial Excellence Since 2008.",
     description: "For nearly two decades, MB Engineering Works has empowered industries with innovative machinery, dependable technical support, and engineering expertise. Our commitment to quality continues to build lasting partnerships around the world.",
     image: "https://images.unsplash.com/photo-1616401784845-180882ba9ba8?auto=format&fit=crop&q=80&w=1920",
+    alt: "Advanced computerized CNC milling machine crafting precision parts inside MB factory",
   },
   {
     title: "Precision Slitting & Rewinding Technology.",
     description: "Offering high-speed performance, micron-level tension control, and superior edge-alignment, our slitter rewinders are built to handle paper, film, foils, and specialized substrates with zero deflection.",
     image: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&q=80&w=1920",
+    alt: "Tension control roller system of high-speed slitter rewinder machine processing specialized film substrate",
   },
   {
     title: "End-to-End Engineering Partnership.",
     description: "From personalized engineering consultation and layout design to seamless onsite integration and 24/7 technical support, we ensure your production lines run at maximum efficiency.",
     image: "https://images.unsplash.com/photo-1565034946487-077786996e27?auto=format&fit=crop&q=80&w=1920",
+    alt: "MB engineering consulting team analyzing layout designs for enterprise converting operations",
   }
 ];
 
@@ -80,7 +86,7 @@ export default function Hero({ onRequestQuote }: HeroProps) {
             }`}
           >
             <img 
-              alt={slide.title}
+              alt={slide.alt}
               className="absolute inset-0 w-full h-full object-cover" 
               src={slide.image}
               loading={idx === 0 ? "eager" : "lazy"}
@@ -122,9 +128,10 @@ export default function Hero({ onRequestQuote }: HeroProps) {
 
           {/* Heading and Description - Animated on Slide Change */}
           <div key={currentIndex} className="space-y-4 animate-fade-in-up">
-            <h1 className="font-display text-3xl sm:text-4xl md:text-6xl md:leading-[1.1] text-white font-bold tracking-tight min-h-[2.2em] md:min-h-[2.2em]">
+            <h1 className="sr-only">MB Engineering Works – Precision Engineering & Industrial Machinery</h1>
+            <h2 className="font-display text-3xl sm:text-4xl md:text-6xl md:leading-[1.1] text-white font-bold tracking-tight min-h-[2.2em] md:min-h-[2.2em]">
               {slides[currentIndex].title}
-            </h1>
+            </h2>
             
             <p className="text-white/80 text-sm sm:text-base md:text-lg max-w-[640px] leading-relaxed min-h-[5em]">
               {slides[currentIndex].description}

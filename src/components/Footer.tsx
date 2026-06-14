@@ -1,15 +1,12 @@
-'use client';
-
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
 export default function Footer() {
   const company = [
-    { label: 'Our Story', href: '#about' },
-    { label: 'Global Support', href: '#global' },
-    { label: 'Careers', href: '#' },
-    { label: 'Privacy Policy', href: '#' },
+    { label: 'Our Story', href: '/about' },
+    { label: 'Global Support', href: '/about#global' },
+    { label: 'Blog & Articles', href: '/blog' },
   ];
 
   return (
@@ -19,7 +16,7 @@ export default function Footer() {
         <div className="col-span-12 lg:col-span-4 space-y-6">
           <Link href="/" className="flex items-center gap-4 hover:opacity-90 transition-opacity max-w-max">
             <Image 
-              alt="MB Engineering Works Logo" 
+              alt="MB Engineering Works logo mark representing precision industrial machinery" 
               className="h-10 w-auto" 
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8pfsrELa6NAoqq-Pdz2yF8hwdx2uUtdO9cTjwrZ2bqcUN_MZPpWKSSiLX2FFvFwc3EzK0xmTLTNkJxKFPdQN9EZSFVo-RT4Xch_r6v2D9W5tn-cXJZajWJqfdTBtEXm46S4bE1J1w5482nq9VfNj9fcRNzKDdHc1_5N8gp3PuUIn3FCek4KDIt9PHUtkDXAC_vi_vOxUNJDP_BAEfnCHnMeCVt4fkyfNrEYf6T3Ks9ZOq6yTjHEpXjdZr5Kc22mGxI1JwLB_EZ8A"
               width={150}
@@ -85,7 +82,7 @@ export default function Footer() {
         <div className="flex gap-6 md:gap-8">
           <a className="hover:text-white transition-colors" href="#">Terms of Service</a>
           <a className="hover:text-white transition-colors" href="#">Compliance</a>
-          <a className="hover:text-white transition-colors" href="#">Sitemap</a>
+          <a className="hover:text-white transition-colors" href="/sitemap.xml">Sitemap</a>
         </div>
       </div>
     </footer>

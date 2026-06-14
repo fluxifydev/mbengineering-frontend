@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function About() {
   return (
@@ -38,7 +39,7 @@ export default function About() {
           <div className="absolute -inset-4 bg-primary/5 rounded-xl transition-all duration-300 group-hover:bg-primary/10" />
           <div className="relative z-10 w-full aspect-video rounded-lg overflow-hidden shadow-2xl border border-outline-variant bg-white">
             <Image 
-              alt="High Precision CNC Manufacturing Part"
+              alt="High-precision industrial CNC machinery component manufactured at MB Engineering Works Coimbatore factory"
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-102"
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1Pj4TEMtfLKVcTwfVTyyQDKXotrVrdGsDHcAp4jd-PPPvTm2J2gwq3RLxx26gyV7IEyMdTza1fEpwgpkCsCGzblx4nXU1r6Iojp_FWYJCPUUs9mz9e8V9c3sanKSKGFw7YCCw7Wtn8Tkv4D3D8GxQMRmzSYwBpHO9djUQP-RyaaN-1es7wc1vNMYvVYti7hcNZ-wHuqtGbQSJShgeVBVawxhPYdSnX2llgMAEEKJH5e8HHj-T3zlAegzs95G4VaqZlHlxFKjkfQM"
               fill
