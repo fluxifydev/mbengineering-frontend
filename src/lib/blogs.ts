@@ -119,12 +119,17 @@ function mapDocToBlogArticle(docSnap: any): BlogArticle {
   }
 
   let imageUrl = '';
-  const rawImageUrl = data.coverImage || data['cover image'] || data.imageUrl;
+  const rawImageUrl = data.coverImageUrl || data.coverImage || data['cover image'] || data.imageUrl || data.cover_image || data.image;
   if (typeof rawImageUrl === 'string') {
     imageUrl = rawImageUrl.trim();
+  } else if (rawImageUrl && typeof rawImageUrl === 'object') {
+    const objUrl = rawImageUrl.secure_url || rawImageUrl.secureUrl || rawImageUrl.url || rawImageUrl.optimizedUrl || rawImageUrl.originalUrl;
+    if (typeof objUrl === 'string') {
+      imageUrl = objUrl.trim();
+    }
   }
 
-  const date = formatBlogDate(data.date);
+  const date = formatBlogDate(data.date || data.createdAt);
   const content = buildBlogContent(data);
 
   return {
