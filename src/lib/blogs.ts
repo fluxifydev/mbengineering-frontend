@@ -91,14 +91,39 @@ function buildBlogContent(data: any): string {
 // Convert Firestore document snapshot to BlogArticle object
 function mapDocToBlogArticle(docSnap: any): BlogArticle {
   const data = docSnap.data();
-  const slug = data.slug || docSnap.id;
+  const slug = typeof data.slug === 'string' ? data.slug.trim() : docSnap.id;
 
-  // Resolve fields (handling camelCase, spaced keys, and lowercase keys)
-  const title = data.mainTitle || data['main title'] || data.title || '';
-  const category = data.tag || data.category || '';
-  const summary = data.shortDescription || data['short description'] || data.summary || '';
-  const readingTime = data.readTime || data['Read Time'] || data.readingTime || '';
-  const imageUrl = data.coverImage || data['cover image'] || data.imageUrl || '';
+  // Resolve fields safely, converting numbers/primitives and checking objects
+  let title = '';
+  const rawTitle = data.mainTitle || data['main title'] || data.title;
+  if (rawTitle !== undefined && rawTitle !== null && typeof rawTitle !== 'object') {
+    title = String(rawTitle).trim();
+  }
+
+  let category = '';
+  const rawCategory = data.tag || data.category;
+  if (rawCategory !== undefined && rawCategory !== null && typeof rawCategory !== 'object') {
+    category = String(rawCategory).trim();
+  }
+
+  let summary = '';
+  const rawSummary = data.shortDescription || data['short description'] || data.summary;
+  if (rawSummary !== undefined && rawSummary !== null && typeof rawSummary !== 'object') {
+    summary = String(rawSummary).trim();
+  }
+
+  let readingTime = '';
+  const rawReadingTime = data.readTime || data['Read Time'] || data.readingTime;
+  if (rawReadingTime !== undefined && rawReadingTime !== null && typeof rawReadingTime !== 'object') {
+    readingTime = String(rawReadingTime).trim();
+  }
+
+  let imageUrl = '';
+  const rawImageUrl = data.coverImage || data['cover image'] || data.imageUrl;
+  if (typeof rawImageUrl === 'string') {
+    imageUrl = rawImageUrl.trim();
+  }
+
   const date = formatBlogDate(data.date);
   const content = buildBlogContent(data);
 

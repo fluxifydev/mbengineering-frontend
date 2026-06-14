@@ -167,16 +167,18 @@ export default function BlogDetailClient({ slug, initialArticle }: BlogDetailCli
         </div>
 
         {/* Featured Image */}
-        <div className="relative aspect-[21/9] w-full rounded-2xl overflow-hidden border border-outline-variant/60 bg-slate-100 shadow-md">
-          <Image 
-            alt={article.title}
-            src={article.imageUrl}
-            fill
-            className="object-cover"
-            priority
-            sizes="100vw"
-          />
-        </div>
+        {article.imageUrl && (
+          <div className="relative aspect-[21/9] w-full rounded-2xl overflow-hidden border border-outline-variant/60 bg-slate-100 shadow-md">
+            <Image 
+              alt={article.title}
+              src={article.imageUrl}
+              fill
+              className="object-cover"
+              priority
+              sizes="100vw"
+            />
+          </div>
+        )}
 
         {/* Article Content Layout */}
         <div className="prose prose-slate max-w-none pt-4">

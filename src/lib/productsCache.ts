@@ -16,14 +16,16 @@ export async function getCachedProducts(): Promise<RenderProduct[]> {
         const data = doc.data();
         return {
           id: doc.id,
-          name: data.name || '',
-          description: data.description || '',
-          imageUrl: data.imageUrl || '',
-          specifications: data.specifications || [],
-          brochureUrl: data.brochureUrl || '',
-          category: data.category || '',
-          subcategory: data.subcategory || '',
-          imageUrls: data.imageUrls || [],
+          name: typeof data.name === 'string' ? data.name : '',
+          description: typeof data.description === 'string' ? data.description : '',
+          imageUrl: typeof data.imageUrl === 'string' ? data.imageUrl : '',
+          specifications: Array.isArray(data.specifications) ? data.specifications : [],
+          brochureUrl: typeof data.brochureUrl === 'string' ? data.brochureUrl : '',
+          category: typeof data.category === 'string' ? data.category : '',
+          subcategory: typeof data.subcategory === 'string' ? data.subcategory : '',
+          imageUrls: Array.isArray(data.imageUrls) 
+            ? data.imageUrls.filter((url: any): url is string => typeof url === 'string' && url.trim() !== '') 
+            : [],
         };
       });
       return cachedProducts;

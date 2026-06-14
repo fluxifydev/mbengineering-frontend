@@ -171,9 +171,10 @@ export default function ProductDetailClient({ id }: ProductDetailClientProps) {
   }
 
   // Build the list of images to render (prefers multiple images from backend, otherwise single imageUrl)
-  const images = product.imageUrls && product.imageUrls.length > 0
+  const images = (product.imageUrls && product.imageUrls.length > 0
     ? product.imageUrls
-    : (product.imageUrl ? [product.imageUrl] : []);
+    : (product.imageUrl ? [product.imageUrl] : []))
+    .filter((img): img is string => typeof img === 'string' && img.trim() !== '');
 
   const handleWhatsAppChat = () => {
     const msg = encodeURIComponent(`Hello MB Engineering Works,\n\nI am interested in your *${product.name}* and would like to receive detailed specifications and delivery timelines.\n\nProduct Page: ${window.location.origin}/products/${product.id}`);

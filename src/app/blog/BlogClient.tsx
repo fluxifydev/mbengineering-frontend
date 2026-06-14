@@ -58,14 +58,18 @@ export default function BlogClient({ initialArticles }: BlogClientProps) {
               className="bg-white rounded-xl border border-outline-variant/60 overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 flex flex-col justify-between group"
             >
               {/* Featured Image */}
-              <div className="relative aspect-video w-full overflow-hidden bg-slate-100/70">
-                <Image 
-                  alt={article.title}
-                  src={article.imageUrl}
-                  fill
-                  className="object-cover group-hover:scale-102 transition-transform duration-500"
-                  sizes="(max-width: 768px) 100vw, 45vw"
-                />
+              <div className="relative aspect-video w-full overflow-hidden bg-slate-100/70 flex items-center justify-center text-slate-400">
+                {article.imageUrl ? (
+                  <Image 
+                    alt={article.title}
+                    src={article.imageUrl}
+                    fill
+                    className="object-cover group-hover:scale-102 transition-transform duration-500"
+                    sizes="(max-width: 768px) 100vw, 45vw"
+                  />
+                ) : (
+                  <span className="material-symbols-outlined text-4xl">article</span>
+                )}
                 <span className="absolute top-4 left-4 bg-primary text-white text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-md font-label">
                   {article.category}
                 </span>
