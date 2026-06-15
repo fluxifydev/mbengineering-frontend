@@ -16,12 +16,24 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${capitalizedCategory} | MB Engineering Works`,
     description: `Explore high-performance industrial converting and printing machinery in the ${decodedCategory} category by MB Engineering Works.`,
+    alternates: {
+      canonical: `/categories/${categoryName}`,
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
     openGraph: {
       title: `${capitalizedCategory} | MB Engineering Works`,
       description: `Explore high-performance industrial converting and printing machinery in the ${decodedCategory} category by MB Engineering Works.`,
       url: `https://www.mbengineering.online/categories/${categoryName}`,
       type: "website",
     },
+    twitter: {
+      card: "summary_large_image",
+      title: `${capitalizedCategory} | MB Engineering Works`,
+      description: `Explore high-performance industrial converting and printing machinery in the ${decodedCategory} category by MB Engineering Works.`,
+    }
   };
 }
 

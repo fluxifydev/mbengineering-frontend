@@ -21,6 +21,17 @@ export const metadata: Metadata = {
   title: "MB Engineering Works | Precision Engineering Solutions",
   description: "Over 18 years of excellence in manufacturing high-performance converting and printing machinery. Custom B2B solutions engineered for global industrial leadership.",
   metadataBase: new URL('https://www.mbengineering.online'),
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
   openGraph: {
     title: "MB Engineering Works | Precision Engineering Solutions",
     description: "Over 18 years of excellence in manufacturing high-performance converting and printing machinery. Custom B2B solutions engineered for global industrial leadership.",

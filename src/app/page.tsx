@@ -4,6 +4,13 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: "MB Engineering Works | Precision Engineering Solutions",
   description: "Over 18 years of excellence in manufacturing high-performance converting and printing machinery. Custom B2B solutions engineered for global industrial leadership.",
+  alternates: {
+    canonical: '/',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
   openGraph: {
     title: "MB Engineering Works | Precision Engineering Solutions",
     description: "Over 18 years of excellence in manufacturing high-performance converting and printing machinery. Custom B2B solutions engineered for global industrial leadership.",
