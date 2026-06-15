@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: "MB Engineering Works | Precision Engineering Solutions",
-  description: "Over 18 years of excellence in manufacturing high-performance converting and printing machinery. Custom B2B solutions engineered for global industrial leadership.",
+  description: "MB Engineering Works | 18+ years of high-performance converting, slitting & printing machinery. Custom B2B solutions for global leaders.",
   alternates: {
     canonical: '/',
   },
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "MB Engineering Works | Precision Engineering Solutions",
-    description: "Over 18 years of excellence in manufacturing high-performance converting and printing machinery. Custom B2B solutions engineered for global industrial leadership.",
+    description: "MB Engineering Works | 18+ years of high-performance converting, slitting & printing machinery. Custom B2B solutions for global leaders.",
     url: "https://www.mbengineering.online",
     siteName: "MB Engineering Works",
     images: [
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "MB Engineering Works | Precision Engineering Solutions",
-    description: "Over 18 years of excellence in manufacturing high-performance converting and printing machinery. Custom B2B solutions engineered for global industrial leadership.",
+    description: "MB Engineering Works | 18+ years of high-performance converting, slitting & printing machinery. Custom B2B solutions for global leaders.",
     images: ["https://lh3.googleusercontent.com/aida-public/AB6AXuA8pfsrELa6NAoqq-Pdz2yF8hwdx2uUtdO9cTjwrZ2bqcUN_MZPpWKSSiLX2FFvFwc3EzK0xmTLTNkJxKFPdQN9EZSFVo-RT4Xch_r6v2D9W5tn-cXJZajWJqfdTBtEXm46S4bE1J1w5482nq9VfNj9fcRNzKDdHc1_5N8gp3PuUIn3FCek4KDIt9PHUtkDXAC_vi_vOxUNJDP_BAEfnCHnMeCVt4fkyfNrEYf6T3Ks9ZOq6yTjHEpXjdZr5Kc22mGxI1JwLB_EZ8A"],
   }
 };
