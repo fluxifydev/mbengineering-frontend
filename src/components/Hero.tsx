@@ -2,52 +2,25 @@
 
 import React, { useState, useEffect } from 'react';
 import ShaderCanvas from './ShaderCanvas';
+import { getBanners } from '@/lib/banners';
 
 interface HeroProps {
   onRequestQuote: () => void;
 }
 
-const slides = [
-  {
-    title: "Engineering Precision. Powering Productivity.",
-    description: "Leveraging over 18 years of specialized engineering excellence, we design and manufacture high-performance converting, slitting, and printing machinery. Our bespoke B2B solutions are engineered for maximum efficiency, absolute precision, and global industrial leadership.",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBl7WjV1gzz4GSOnc14sfpD-OsA2R2tWgifgJgS7EBCFsgXqychb9aJHTWRwadGanIX5vfCtf7OT-TU6AoLhPWGIKUrFjq8qWDODbOQ6_l0YZXtCth2aOg02BhbIf30khqXQ52sDfHNZ4USwWFqNsjyk4hXsNTSvFEA7PL-VBEUiglDVYGkXYVS9i6dhddAZ-vdZ4dYvkVABYE5KjgpXPGIdUv-ExJjlMKJqTtLkA-wG3nI7uDL95hsdANLGBQ19QOMBGV6QaAwNtI",
-    alt: "High-precision B2B converting and slitting rewinder machine manufacturing line on the factory floor",
-  },
-  {
-    title: "Innovative Machinery. Trusted Worldwide.",
-    description: "Serving customers across India and international markets, MB Engineering Works delivers reliable converting and printing machinery built for durability, precision, and long-term performance. Trusted by manufacturers who demand quality without compromise.",
-    image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=1920",
-    alt: "Technician monitoring industrial printing and converting machinery in a B2B packaging plant",
-  },
-  {
-    title: "Custom Solutions for Modern Manufacturing.",
-    description: "Every production line has unique requirements. We develop tailored machinery solutions that optimize workflow, improve productivity, and deliver consistent results, helping businesses stay competitive in an evolving industrial landscape.",
-    image: "/custom-solutions.png",
-    alt: "Engineered blueprint overlay of a customized industrial slitter rewinder system",
-  },
-  {
-    title: "Driving Industrial Excellence Since 2008.",
-    description: "For nearly two decades, MB Engineering Works has empowered industries with innovative machinery, dependable technical support, and engineering expertise. Our commitment to quality continues to build lasting partnerships around the world.",
-    image: "https://images.unsplash.com/photo-1616401784845-180882ba9ba8?auto=format&fit=crop&q=80&w=1920",
-    alt: "Advanced computerized CNC milling machine crafting precision parts inside MB factory",
-  },
-  {
-    title: "Precision Slitting & Rewinding Technology.",
-    description: "Offering high-speed performance, micron-level tension control, and superior edge-alignment, our slitter rewinders are built to handle paper, film, foils, and specialized substrates with zero deflection.",
-    image: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&q=80&w=1920",
-    alt: "Tension control roller system of high-speed slitter rewinder machine processing specialized film substrate",
-  },
-  {
-    title: "End-to-End Engineering Partnership.",
-    description: "From personalized engineering consultation and layout design to seamless onsite integration and 24/7 technical support, we ensure your production lines run at maximum efficiency.",
-    image: "https://images.unsplash.com/photo-1565034946487-077786996e27?auto=format&fit=crop&q=80&w=1920",
-    alt: "MB engineering consulting team analyzing layout designs for enterprise converting operations",
-  }
-];
+interface SlideItem {
+  title: string;
+  description: string;
+  image: string;
+  alt: string;
+  buttonText: string;
+  buttonLink?: string;
+}
 
 export default function Hero({ onRequestQuote }: HeroProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [activeSlides, setActiveSlides] = useState<SlideItem[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const highlights = [
     { icon: 'check_circle', text: '18+ Years' },
@@ -57,28 +30,72 @@ export default function Hero({ onRequestQuote }: HeroProps) {
   ];
 
   useEffect(() => {
+    async function loadDynamicBanners() {
+      try {
+        const fetched = await getBanners();
+        if (fetched && fetched.length > 0) {
+          const mapped = fetched.map(b => ({
+            title: b.title,
+            description: b.description,
+            image: b.imageUrl,
+            alt: b.title,
+            buttonText: b.buttonText || 'Explore Machines',
+            buttonLink: b.buttonLink
+          }));
+          setActiveSlides(mapped);
+        }
+      } catch (err) {
+        console.error('Failed to load dynamic banners:', err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadDynamicBanners();
+  }, []);
+
+  useEffect(() => {
+    if (activeSlides.length <= 1) return;
     const timer = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % slides.length);
+      setCurrentIndex((prev) => (prev + 1) % activeSlides.length);
     }, 6000);
 
     return () => clearInterval(timer);
-  }, [currentIndex]);
+  }, [currentIndex, activeSlides.length]);
 
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % slides.length);
+    setCurrentIndex((prev) => (prev + 1) % activeSlides.length);
   };
 
   const handlePrev = () => {
-    setCurrentIndex((prev) => (prev - 1 + slides.length) % slides.length);
+    setCurrentIndex((prev) => (prev - 1 + activeSlides.length) % activeSlides.length);
   };
+
+  if (loading) {
+    return (
+      <section 
+        className="relative min-h-[80vh] lg:min-h-[85vh] flex items-center overflow-hidden py-12 md:py-20 lg:py-xl scroll-mt-20 bg-slate-950"
+      >
+        <div className="absolute inset-0 z-0">
+          <div className="absolute inset-0 z-12 mix-blend-screen opacity-80 pointer-events-none">
+            <ShaderCanvas />
+          </div>
+        </div>
+        <div className="relative z-20 max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop w-full flex justify-center items-center">
+          <div className="w-10 h-10 border-4 border-orange-500/20 border-t-orange-500 rounded-full animate-spin" />
+        </div>
+      </section>
+    );
+  }
+
+  const hasSlides = activeSlides.length > 0;
 
   return (
     <section 
-      className="relative min-h-[80vh] lg:min-h-[85vh] flex items-center overflow-hidden animate-fade-in py-12 md:py-20 lg:py-xl scroll-mt-20 group"
+      className="relative min-h-[80vh] lg:min-h-[85vh] flex items-center overflow-hidden animate-fade-in py-12 md:py-20 lg:py-xl scroll-mt-20 group bg-slate-950"
     >
       {/* Background Images & Overlays Fading Container */}
       <div className="absolute inset-0 z-0">
-        {slides.map((slide, idx) => (
+        {hasSlides && activeSlides.map((slide, idx) => (
           <div
             key={idx}
             className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
@@ -101,21 +118,25 @@ export default function Hero({ onRequestQuote }: HeroProps) {
       </div>
 
       {/* Manual Slide Navigation Arrows */}
-      <button
-        onClick={handlePrev}
-        className="absolute left-4 lg:left-8 top-1/2 -translate-y-1/2 z-30 bg-white/10 hover:bg-white/20 active:scale-90 text-white w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center transition-all cursor-pointer backdrop-blur-md border border-white/10 shadow-lg opacity-0 group-hover:opacity-100 focus:opacity-100 focus:outline-none"
-        aria-label="Previous Slide"
-      >
-        <span className="material-symbols-outlined text-2xl md:text-3xl">chevron_left</span>
-      </button>
+      {hasSlides && activeSlides.length > 1 && (
+        <>
+          <button
+            onClick={handlePrev}
+            className="absolute left-4 lg:left-8 top-1/2 -translate-y-1/2 z-30 bg-white/10 hover:bg-white/20 active:scale-90 text-white w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center transition-all cursor-pointer backdrop-blur-md border border-white/10 shadow-lg opacity-0 group-hover:opacity-100 focus:opacity-100 focus:outline-none"
+            aria-label="Previous Slide"
+          >
+            <span className="material-symbols-outlined text-2xl md:text-3xl">chevron_left</span>
+          </button>
 
-      <button
-        onClick={handleNext}
-        className="absolute right-4 lg:right-8 top-1/2 -translate-y-1/2 z-30 bg-white/10 hover:bg-white/20 active:scale-90 text-white w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center transition-all cursor-pointer backdrop-blur-md border border-white/10 shadow-lg opacity-0 group-hover:opacity-100 focus:opacity-100 focus:outline-none"
-        aria-label="Next Slide"
-      >
-        <span className="material-symbols-outlined text-2xl md:text-3xl">chevron_right</span>
-      </button>
+          <button
+            onClick={handleNext}
+            className="absolute right-4 lg:right-8 top-1/2 -translate-y-1/2 z-30 bg-white/10 hover:bg-white/20 active:scale-90 text-white w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center transition-all cursor-pointer backdrop-blur-md border border-white/10 shadow-lg opacity-0 group-hover:opacity-100 focus:opacity-100 focus:outline-none"
+            aria-label="Next Slide"
+          >
+            <span className="material-symbols-outlined text-2xl md:text-3xl">chevron_right</span>
+          </button>
+        </>
+      )}
 
       {/* Hero Content Container */}
       <div className="relative z-20 max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop w-full grid grid-cols-12 gap-gutter">
@@ -127,14 +148,16 @@ export default function Hero({ onRequestQuote }: HeroProps) {
           </div>
 
           {/* Heading and Description - Animated on Slide Change */}
-          <div key={currentIndex} className="space-y-4 animate-fade-in-up">
+          <div key={hasSlides ? currentIndex : 'coming-soon'} className="space-y-4 animate-fade-in-up">
             <h1 className="sr-only">MB Engineering Works – Precision Engineering & Industrial Machinery</h1>
             <h2 className="font-display text-3xl sm:text-4xl md:text-6xl md:leading-[1.1] text-white font-bold tracking-tight min-h-[2.2em] md:min-h-[2.2em]">
-              {slides[currentIndex].title}
+              {hasSlides ? activeSlides[currentIndex]?.title : "Coming Soon!"}
             </h2>
             
             <p className="text-white/80 text-sm sm:text-base md:text-lg max-w-[640px] leading-relaxed min-h-[5em]">
-              {slides[currentIndex].description}
+              {hasSlides 
+                ? activeSlides[currentIndex]?.description 
+                : "Our new high-performance converting, slitting, and printing machinery slideshow and custom solutions updates are coming soon. Stay tuned!"}
             </p>
           </div>
 
@@ -146,12 +169,14 @@ export default function Hero({ onRequestQuote }: HeroProps) {
             >
               Get a Free Consultation
             </button>
-            <a 
-              href="#machinery"
-              className="bg-white/10 backdrop-blur-md border border-white/25 text-white px-7 py-3.5 md:py-4 rounded-lg font-button font-bold text-sm md:text-base hover:bg-white/25 active:scale-[0.98] transition-all text-center flex items-center justify-center"
-            >
-              Explore Machines
-            </a>
+            {hasSlides && (
+              <a 
+                href={activeSlides[currentIndex]?.buttonLink || "#machinery"}
+                className="bg-white/10 backdrop-blur-md border border-white/25 text-white px-7 py-3.5 md:py-4 rounded-lg font-button font-bold text-sm md:text-base hover:bg-white/25 active:scale-[0.98] transition-all text-center flex items-center justify-center"
+              >
+                {activeSlides[currentIndex]?.buttonText || 'Explore Machines'}
+              </a>
+            )}
           </div>
 
           {/* Inline Highlight Points - Permanent */}
@@ -167,20 +192,22 @@ export default function Hero({ onRequestQuote }: HeroProps) {
       </div>
 
       {/* Slide Indicator Dots at Bottom */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex gap-2.5">
-        {slides.map((_, idx) => (
-          <button
-            key={idx}
-            onClick={() => setCurrentIndex(idx)}
-            className={`w-2.5 h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
-              idx === currentIndex 
-                ? 'bg-accent w-8' 
-                : 'bg-white/40 hover:bg-white/70'
-            }`}
-            aria-label={`Go to slide ${idx + 1}`}
-          />
-        ))}
-      </div>
+      {hasSlides && activeSlides.length > 1 && (
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex gap-2.5">
+          {activeSlides.map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => setCurrentIndex(idx)}
+              className={`w-2.5 h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
+                idx === currentIndex 
+                  ? 'bg-accent w-8' 
+                  : 'bg-white/40 hover:bg-white/70'
+              }`}
+              aria-label={`Go to slide ${idx + 1}`}
+            />
+          ))}
+        </div>
+      )}
     </section>
   );
 }

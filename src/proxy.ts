@@ -10,6 +10,11 @@ export function proxy(request: NextRequest) {
   const url = request.nextUrl.clone();
   const host = request.headers.get('host') || '';
 
+  // Bypass redirects for localhost/development
+  if (host.includes('localhost') || host.includes('127.0.0.1')) {
+    return NextResponse.next();
+  }
+
   // Check if the host is non-www
   const isNonWww = host === 'mbengineering.online';
 
